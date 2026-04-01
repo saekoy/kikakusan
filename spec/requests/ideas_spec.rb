@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Ideas', type: :request do
-  describe 'GET /index' do
-    it 'returns http success' do
-      get '/ideas/index'
-      expect(response).to have_http_status(:success)
+  describe 'GET /' do
+    it 'HTTP ステータス 200 を返す' do
+      get '/'
+      expect(response).to have_http_status(200)
     end
   end
 end
