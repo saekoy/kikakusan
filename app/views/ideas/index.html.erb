@@ -1,4 +1,675 @@
-<div>
-  <h1 class="font-bold text-4xl">Ideas#index</h1>
-  <p>Find me in app/views/ideas/index.html.erb</p>
+<% content_for :head do %>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #FAFAF8;
+      min-height: 100vh;
+    }
+
+    .screen { display: none; flex-direction: column; min-height: 100vh; }
+    .screen.active { display: flex; }
+
+    /* プログレスバー */
+    .progress-wrap { display: flex; gap: 6px; align-items: center; margin-bottom: 32px; }
+    .progress-dot { flex: 1; height: 3px; background: #E0E0E0; border-radius: 2px; }
+    .progress-dot.done { background: #111; }
+    .progress-dot.current { background: #111; opacity: 0.4; }
+
+    /* 質問 */
+    .question-step { font-size: 11px; font-weight: 600; color: #999; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+    .question-text { font-size: 22px; font-weight: 700; color: #111; line-height: 1.4; margin-bottom: 6px; }
+    .question-sub { font-size: 12px; color: #999; margin-bottom: 28px; line-height: 1.5; }
+
+    /* チップ */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+    .chip { padding: 10px 18px; border: 1.5px solid #DEDEDE; border-radius: 24px; font-size: 14px; color: #444; background: white; cursor: pointer; transition: all 0.15s; line-height: 1; }
+    .chip.selected { background: #111; color: white; border-color: #111; }
+
+    /* テキスト入力 */
+    .big-input { width: 100%; padding: 14px 16px; border: 1.5px solid #DEDEDE; border-radius: 16px; font-size: 15px; color: #111; background: white; margin-bottom: 12px; font-family: inherit; }
+    .big-input:focus { outline: none; border-color: #111; }
+
+    /* ボタン */
+    .spacer { flex: 1; }
+    .btn-next { width: 100%; padding: 17px; background: #111; color: white; border: none; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .btn-back { background: none; border: none; font-size: 13px; color: #999; cursor: pointer; text-align: center; margin-top: 12px; width: 100%; font-family: inherit; }
+    .btn-primary { width: 100%; padding: 17px; background: #111; color: white; border: none; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit; }
+    .btn-secondary { width: 100%; padding: 14px; background: white; color: #111; border: 1.5px solid #DEDEDE; border-radius: 18px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px; font-family: inherit; }
+    .btn-welcome { width: 220px; padding: 17px; background: #111; color: white; border: none; border-radius: 18px; font-size: 17px; font-weight: 700; cursor: pointer; letter-spacing: 1px; font-family: inherit; }
+
+    /* ホーム */
+    .home-header { padding: 20px 24px 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
+    .home-greeting { font-size: 13px; color: #999; margin-bottom: 2px; }
+    .home-title { font-size: 22px; font-weight: 700; color: #111; }
+    .section-label { font-size: 11px; font-weight: 700; color: #AAA; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 10px; }
+
+    /* ジャンルグリッド */
+    .genre-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px; }
+    .genre-card { padding: 14px 16px; border: 1.5px solid #DEDEDE; border-radius: 16px; cursor: pointer; background: white; transition: all 0.15s; }
+    .genre-card.selected { background: #111; border-color: #111; }
+    .genre-card .g-emoji { font-size: 22px; display: block; margin-bottom: 6px; }
+    .genre-card .g-name { font-size: 13px; font-weight: 600; color: #333; }
+    .genre-card.selected .g-name { color: white; }
+
+    /* テキストエリア（ホーム） */
+    .home-textarea { width: 100%; padding: 13px 15px; border: 1.5px solid #DEDEDE; border-radius: 14px; font-size: 13px; color: #111; background: white; height: 100px; resize: none; line-height: 1.7; margin-bottom: 14px; font-family: inherit; }
+    .home-textarea:focus { outline: none; border-color: #111; }
+
+    /* プロフィール表示バー */
+    .user-bar { display: flex; align-items: center; gap: 10px; background: white; border-radius: 14px; padding: 10px 14px; margin-bottom: 16px; border: 1.5px solid #EBEBEB; }
+    .user-avatar { width: 30px; height: 30px; border-radius: 50%; background: #111; display: flex; align-items: center; justify-content: center; color: white; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+    .user-name { font-size: 13px; color: #333; font-weight: 500; }
+    .user-edit { margin-left: auto; font-size: 12px; color: #999; text-decoration: none; cursor: pointer; background: none; border: none; font-family: inherit; }
+
+    /* ローディング */
+    .loading-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0; }
+    .loading-dots { display: flex; gap: 8px; margin-bottom: 12px; }
+    .dot { width: 10px; height: 10px; background: #111; border-radius: 50%; animation: bounce 1.2s infinite; }
+    .dot:nth-child(2) { animation-delay: 0.2s; }
+    .dot:nth-child(3) { animation-delay: 0.4s; }
+    @keyframes bounce { 0%, 80%, 100% { transform: scale(0.5); opacity: 0.2; } 40% { transform: scale(1); opacity: 1; } }
+    @keyframes wobble { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(6deg); } }
+    .loading-text { font-size: 14px; color: #888; font-weight: 500; }
+
+    /* 結果 */
+    .result-header { padding: 16px 22px 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
+    .result-title { font-size: 17px; font-weight: 700; color: #111; }
+    .result-badge { font-size: 11px; font-weight: 600; color: #999; background: #F0F0F0; padding: 4px 10px; border-radius: 20px; }
+    .result-sub { padding: 0 22px 8px; font-size: 11px; color: #BBB; flex-shrink: 0; }
+    .neta-list { flex: 1; overflow-y: auto; padding: 0 14px; }
+    .neta-row { display: flex; align-items: center; gap: 10px; padding: 10px; border-bottom: 1px solid #F0F0F0; cursor: pointer; transition: background 0.2s; }
+    .neta-row:last-child { border-bottom: none; }
+    .neta-row:nth-child(even) { background: #F7F7F5; }
+    .neta-row.selected { background: #111 !important; border-radius: 10px; }
+    .neta-row.selected .neta-num { background: rgba(255,255,255,0.15); color: white; }
+    .neta-row.selected .neta-text { color: white; }
+    .neta-num { width: 22px; height: 22px; border-radius: 50%; background: #F0F0F0; color: #888; font-size: 11px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .neta-text { flex: 1; font-size: 12px; color: #222; line-height: 1.45; }
+    .row-actions { display: flex; gap: 4px; flex-shrink: 0; }
+    .result-footer { padding: 10px 22px 20px; flex-shrink: 0; }
+
+    /* ハートボタン */
+    .heart-btn { width: 30px; height: 30px; border-radius: 50%; border: 1.5px solid #E0E0E0; background: white; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: #CCC; transition: all 0.15s; line-height: 1; font-family: inherit; }
+    .heart-btn.liked { background: #111; border-color: #111; color: white; }
+    .neta-row.selected .heart-btn { border-color: rgba(255,255,255,0.3); background: transparent; color: rgba(255,255,255,0.5); }
+
+    /* コピーボタン */
+    .copy-btn { width: 28px; height: 28px; border-radius: 50%; border: 1.5px solid #E0E0E0; background: white; font-size: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: #BBB; transition: all 0.15s; flex-shrink: 0; font-family: inherit; }
+    .copy-btn.copied { border-color: #111; color: #111; }
+    .neta-row.selected .copy-btn { border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.6); background: transparent; }
+
+    /* コピートースト */
+    .copy-toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(4px); background: #111; color: white; font-size: 12px; font-weight: 600; padding: 6px 16px; border-radius: 20px; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity 0.2s, transform 0.2s; z-index: 200; }
+    .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* 決定ボタン */
+    .btn-decide { width: 100%; padding: 16px; background: #111; color: white; border: none; border-radius: 18px; font-size: 16px; font-weight: 700; cursor: pointer; margin-bottom: 8px; transition: opacity 0.2s; font-family: inherit; }
+    .btn-decide:disabled { opacity: 0.25; cursor: default; }
+
+    /* シェアオーバーレイ */
+    .bye-overlay { display: none; position: fixed; inset: 0; background: #FAFAF8; flex-direction: column; align-items: center; justify-content: center; z-index: 100; padding: 28px; animation: fadeIn 0.25s ease; }
+    .bye-overlay.show { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.96); } to { opacity: 1; transform: scale(1); } }
+    .share-cheer { font-size: 15px; font-weight: 700; color: #555; margin-bottom: 20px; text-align: center; line-height: 1.6; }
+    .share-card { width: 100%; max-width: 320px; background: white; border-radius: 20px; border: 2px solid #EBEBEB; padding: 24px 20px 20px; text-align: center; position: relative; margin-bottom: 20px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+    .share-card-label { font-size: 11px; font-weight: 700; color: #BBB; letter-spacing: 1px; margin-bottom: 12px; }
+    .share-card-topic { font-size: 20px; font-weight: 800; color: #111; line-height: 1.4; margin-bottom: 14px; }
+    .share-card-tag { font-size: 12px; color: #AAA; }
+    .btn-x-share { width: 100%; max-width: 320px; padding: 15px; background: #111; color: white; border: none; border-radius: 16px; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 10px; letter-spacing: 0.5px; font-family: inherit; }
+    .btn-skip-share { background: none; border: none; font-size: 13px; color: #AAA; cursor: pointer; padding: 6px; font-family: inherit; }
+
+    /* ボトムナビ */
+    .bottom-nav { background: white; border-top: 1px solid #F0F0F0; display: flex; padding: 8px 0 16px; flex-shrink: 0; }
+    .nav-item { flex: 1; text-align: center; font-size: 10px; color: #CCC; cursor: pointer; }
+    .nav-item.active { color: #111; }
+    .nav-item .nav-icon { font-size: 20px; display: block; margin-bottom: 2px; }
+
+    /* コンテンツエリア */
+    .content { flex: 1; padding: 8px 24px 24px; display: flex; flex-direction: column; overflow-y: auto; }
+
+    /* プロフィール編集ヘッダー */
+    .edit-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px 8px; border-bottom: 1px solid #F0F0F0; flex-shrink: 0; }
+    .edit-title { font-size: 15px; font-weight: 700; color: #111; }
+    .back-btn { background: none; border: none; font-size: 13px; color: #999; cursor: pointer; padding: 4px 0; font-family: inherit; }
+    .form-group-label { font-size: 11px; font-weight: 700; color: #AAA; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; margin-top: 16px; }
+
+    /* ミニマスコット */
+    .mini-mascot { position: relative; width: 52px; display: flex; flex-direction: column; align-items: center; animation: float 3.5s ease-in-out infinite; flex-shrink: 0; }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-6px); } }
+    .mm-bun { width: 10px; height: 10px; background: #3A2A1E; border-radius: 50%; position: absolute; top: 2px; z-index: 4; }
+    .mm-bun-l { left: 6px; }
+    .mm-bun-r { right: 6px; }
+    .mm-head { width: 40px; height: 40px; background: #FDDBB4; border-radius: 50%; border: 2px solid #F0C89A; position: relative; overflow: hidden; z-index: 2; }
+    .mm-hair { position: absolute; top: 0; left: 0; right: 0; height: 16px; background: #3A2A1E; border-radius: 50% 50% 0 0 / 90% 90% 0 0; }
+    .mm-eyes { position: absolute; top: 18px; width: 100%; display: flex; justify-content: center; gap: 7px; }
+    .mm-eye { width: 5px; height: 6px; background: #2A1A10; border-radius: 50%; }
+    .mm-mouth { position: absolute; top: 26px; left: 50%; transform: translateX(-50%); width: 9px; height: 4px; border: 1.5px solid #C4745A; border-top: none; border-radius: 0 0 8px 8px; }
+    .mm-body { width: 30px; height: 18px; background: #BFDBFE; border-radius: 40% 40% 46% 46% / 36% 36% 64% 64%; margin-top: -4px; border: 1.5px solid #93C5FD; z-index: 1; }
+
+    /* きかくさん（大） */
+    .mascot-wrap { position: relative; width: 180px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: flex-end; margin-bottom: 20px; animation: float 3.5s ease-in-out infinite; }
+    .thought-bubble { position: absolute; top: 4px; right: 2px; background: white; border: 2px solid #E8E8E8; border-radius: 16px; padding: 6px 10px; font-size: 18px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); z-index: 10; }
+    .kk-char { position: relative; display: flex; flex-direction: column; align-items: center; }
+    .kk-bun { width: 26px; height: 26px; background: #3A2A1E; border-radius: 50%; position: absolute; top: 6px; z-index: 4; border: 2px solid #2A1A10; }
+    .kk-bun-l { left: 14px; }
+    .kk-bun-r { right: 14px; }
+    .kk-head { width: 114px; height: 114px; background: #FDDBB4; border-radius: 50%; position: relative; z-index: 2; border: 3px solid #F0C89A; overflow: hidden; flex-shrink: 0; }
+    .kk-hair { position: absolute; top: 0; left: 0; right: 0; height: 46px; background: #3A2A1E; border-radius: 50% 50% 0 0 / 90% 90% 0 0; z-index: 3; }
+    .kk-hair::after { content: ''; position: absolute; bottom: 0; left: 20px; right: 20px; height: 10px; background: #FDDBB4; border-radius: 0 0 60% 60%; }
+    .kk-eyes { position: absolute; top: 52px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 4; }
+    .kk-eye { width: 14px; height: 17px; background: #2A1A10; border-radius: 50%; position: relative; }
+    .kk-eye::after { content: ''; width: 5px; height: 5px; background: white; border-radius: 50%; position: absolute; top: 2px; right: 1px; }
+    .kk-mouth { position: absolute; top: 76px; left: 50%; transform: translateX(-50%); width: 26px; height: 13px; border: 2.5px solid #C4745A; border-top: none; border-radius: 0 0 20px 20px; z-index: 4; }
+    .kk-cheek { width: 22px; height: 13px; background: #F9A8D4; border-radius: 50%; opacity: 0.6; position: absolute; top: 68px; z-index: 4; }
+    .kk-cheek-l { left: 12px; }
+    .kk-cheek-r { right: 12px; }
+    .kk-body { width: 84px; height: 56px; background: #BFDBFE; border-radius: 42% 42% 46% 46% / 36% 36% 64% 64%; margin-top: -8px; z-index: 1; border: 2.5px solid #93C5FD; flex-shrink: 0; }
+    .kk-shadow { width: 76px; height: 10px; background: rgba(0,0,0,0.07); border-radius: 50%; margin-top: 8px; }
+
+    /* 設定完了 */
+    .complete-wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 28px; text-align: center; }
+    .complete-emoji { font-size: 64px; margin-bottom: 20px; animation: pop 0.4s ease; }
+    @keyframes pop { 0% { transform: scale(0.5); } 70% { transform: scale(1.15); } 100% { transform: scale(1); } }
+
+    /* ボタン押した感 */
+    .btn-next:active, .btn-primary:active, .btn-decide:active, .btn-welcome:active, .btn-x-share:active { transform: scale(0.97); }
+    .chip:active, .genre-card:active { transform: scale(0.95); }
+
+    .notice { font-size: 10px; color: #CCC; text-align: center; margin-top: 14px; line-height: 1.7; }
+  </style>
+<% end %>
+
+<!-- ① ウェルカム画面 -->
+<div class="screen active" id="screen-welcome">
+  <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding: 24px;">
+    <div class="mascot-wrap">
+      <div class="thought-bubble">
+        💡
+      </div>
+      <div class="kk-char">
+        <div class="kk-bun kk-bun-l"></div>
+        <div class="kk-bun kk-bun-r"></div>
+        <div class="kk-head">
+          <div class="kk-hair"></div>
+          <div class="kk-eyes">
+            <div class="kk-eye"></div>
+            <div class="kk-eye"></div>
+          </div>
+          <div class="kk-mouth"></div>
+          <div class="kk-cheek kk-cheek-l"></div>
+          <div class="kk-cheek kk-cheek-r"></div>
+        </div>
+        <div class="kk-body"></div>
+      </div>
+      <div class="kk-shadow"></div>
+    </div>
+
+    <div style="font-size:30px; font-weight:800; color:#111; letter-spacing:2px; margin-bottom:10px;">きかくさん</div>
+    <div style="font-size:14px; color:#999; margin-bottom:52px; text-align:center; line-height:1.8;">今日の配信企画、<br>まかせて！</div>
+
+    <button class="btn-welcome" onclick="showScreen('profile-step1')">はじめる</button>
+    <div style="font-size:11px; color:#CCC; margin-top:14px;">ライバーのための企画提案アプリ</div>
+  </div>
 </div>
+
+<!-- ② プロフィール設定 Step1：性別・年齢 -->
+<div class="screen" id="screen-profile-step1">
+  <div class="content" style="padding-top: 48px;">
+    <div class="progress-wrap">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot"></div>
+      <div class="progress-dot"></div>
+    </div>
+    <div class="question-step">STEP 1 / 3</div>
+    <div class="question-text">あなたのことを<br>教えて！</div>
+    <div class="question-sub">企画を考えるときのヒントにするよ</div>
+
+    <div class="form-group-label">性別</div>
+    <div class="chip-group" id="gender-group">
+      <div class="chip" onclick="selectChip(this, 'gender-group')">女性</div>
+      <div class="chip" onclick="selectChip(this, 'gender-group')">男性</div>
+      <div class="chip" onclick="selectChip(this, 'gender-group')">その他</div>
+    </div>
+
+    <div class="form-group-label">年齢</div>
+    <div class="chip-group" id="age-group">
+      <div class="chip" onclick="selectChip(this, 'age-group')">10代前半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">10代後半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">20代前半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">20代後半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">30代前半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">30代後半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">40代前半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">40代後半</div>
+      <div class="chip" onclick="selectChip(this, 'age-group')">50代以上</div>
+    </div>
+
+    <div class="spacer"></div>
+    <button class="btn-next" onclick="showScreen('profile-step2')">次へ →</button>
+  </div>
+</div>
+
+<!-- ② プロフィール設定 Step2：家族構成・配信キャラ -->
+<div class="screen" id="screen-profile-step2">
+  <div class="content" style="padding-top: 48px;">
+    <div class="progress-wrap">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot"></div>
+    </div>
+    <div class="question-step">STEP 2 / 3</div>
+    <div class="question-text">配信スタイルを<br>教えて！</div>
+    <div class="question-sub">企画の方向性を絞り込むよ</div>
+
+    <div class="form-group-label">家族構成</div>
+    <div class="chip-group" id="family-group">
+      <div class="chip" onclick="selectChip(this, 'family-group')">一人暮らし</div>
+      <div class="chip" onclick="selectChip(this, 'family-group')">実家暮らし</div>
+      <div class="chip" onclick="selectChip(this, 'family-group')">パートナーあり</div>
+      <div class="chip" onclick="selectChip(this, 'family-group')">子供あり</div>
+    </div>
+
+    <div class="form-group-label">配信キャラクター</div>
+    <div class="chip-group" id="character-group">
+      <div class="chip" onclick="selectChip(this, 'character-group')">ほんわか系</div>
+      <div class="chip" onclick="selectChip(this, 'character-group')">元気・明るい系</div>
+      <div class="chip" onclick="selectChip(this, 'character-group')">クール・落ち着き系</div>
+      <div class="chip" onclick="selectChip(this, 'character-group')">ツッコミ・面白い系</div>
+    </div>
+
+    <div class="spacer"></div>
+    <button class="btn-next" onclick="showScreen('profile-step3')">次へ →</button>
+    <button class="btn-back" onclick="showScreen('profile-step1')">← 戻る</button>
+  </div>
+</div>
+
+<!-- ② プロフィール設定 Step3：リスナー層・自由記入 -->
+<div class="screen" id="screen-profile-step3">
+  <div class="content" style="padding-top: 48px;">
+    <div class="progress-wrap">
+      <div class="progress-dot done"></div>
+      <div class="progress-dot done"></div>
+      <div class="progress-dot current"></div>
+    </div>
+    <div class="question-step">STEP 3 / 3</div>
+    <div class="question-text">もう少しだけ<br>教えて！</div>
+    <div class="question-sub">より自分らしい企画になるよ</div>
+
+    <div class="form-group-label">リスナー層</div>
+    <div class="chip-group" id="listener-group">
+      <div class="chip" onclick="selectChip(this, 'listener-group')">10〜20代が多い</div>
+      <div class="chip" onclick="selectChip(this, 'listener-group')">幅広い年齢層</div>
+      <div class="chip" onclick="selectChip(this, 'listener-group')">同世代が多い</div>
+      <div class="chip" onclick="selectChip(this, 'listener-group')">まだわからない</div>
+    </div>
+
+    <div class="form-group-label">自由記入（任意）</div>
+    <textarea class="home-textarea" id="profile-memo" placeholder="例：猫を飼ってる、旅行が好き、ゲームはRPG系..."></textarea>
+
+    <div class="spacer"></div>
+    <button class="btn-next" onclick="saveProfileAndComplete()">設定を完了する</button>
+    <button class="btn-back" onclick="showScreen('profile-step2')">← 戻る</button>
+  </div>
+</div>
+
+<!-- ②完了 プロフィール設定完了 -->
+<div class="screen" id="screen-profile-complete">
+  <div class="complete-wrap">
+    <div class="complete-emoji">🎉</div>
+    <div style="font-size:24px; font-weight:800; color:#111; margin-bottom:10px;">準備完了！</div>
+    <div style="font-size:14px; color:#888; line-height:1.8; margin-bottom:48px;">
+      プロフィールの設定が<br>終わったよ！<br>さっそく企画を考えてみよう
+    </div>
+    <button class="btn-primary" style="max-width:240px;" onclick="showScreen('home')">さっそく企画を考えよう →</button>
+  </div>
+</div>
+
+<!-- ③ ホーム -->
+<div class="screen" id="screen-home">
+  <div class="home-header">
+    <div>
+      <div class="home-greeting" id="home-greeting">おつかれ！</div>
+      <div class="home-title">今日の企画、考えよっか</div>
+    </div>
+    <div class="mini-mascot">
+      <div class="mm-bun mm-bun-l"></div>
+      <div class="mm-bun mm-bun-r"></div>
+      <div class="mm-head">
+        <div class="mm-hair"></div>
+        <div class="mm-eyes">
+          <div class="mm-eye"></div>
+          <div class="mm-eye"></div>
+        </div>
+        <div class="mm-mouth"></div>
+      </div>
+      <div class="mm-body"></div>
+    </div>
+  </div>
+
+  <div class="content" style="padding-top:0;">
+    <div class="user-bar" id="user-bar">
+      <div class="user-avatar" id="user-avatar">？</div>
+      <div class="user-name" id="user-profile-summary">プロフィール未設定</div>
+      <button class="user-edit" onclick="showScreen('profile-edit')">編集</button>
+    </div>
+
+    <div class="section-label">今日のジャンル</div>
+    <div class="genre-grid">
+      <div class="genre-card" onclick="selectGenre(this)" data-genre="トーク・雑談">
+        <span class="g-emoji">💬</span>
+        <span class="g-name">トーク・雑談</span>
+      </div>
+      <div class="genre-card" onclick="selectGenre(this)" data-genre="ゲーム・チャレンジ">
+        <span class="g-emoji">🎮</span>
+        <span class="g-name">ゲーム・チャレンジ</span>
+      </div>
+      <div class="genre-card" onclick="selectGenre(this)" data-genre="歌・パフォーマンス">
+        <span class="g-emoji">🎵</span>
+        <span class="g-name">歌・パフォーマンス</span>
+      </div>
+      <div class="genre-card" onclick="selectGenre(this)" data-genre="リスナー参加型">
+        <span class="g-emoji">🎲</span>
+        <span class="g-name">リスナー参加型</span>
+      </div>
+    </div>
+
+    <div class="section-label">今日のこと（任意）</div>
+    <textarea class="home-textarea" id="today-memo" placeholder="例：バイトでちょっと嫌なことがあった、最近ハマってるドラマがある..."></textarea>
+
+    <button class="btn-primary" id="btn-generate" onclick="generateIdeas()">企画を考えてもらう</button>
+    <p class="notice">プロフィールはこの端末にのみ保存されます</p>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active"><span class="nav-icon">🏠</span>ホーム</div>
+    <div class="nav-item" onclick="showScreen('profile-edit')"><span class="nav-icon">👤</span>プロフィール</div>
+  </div>
+</div>
+
+<!-- ④ 生成中 -->
+<div class="screen" id="screen-loading">
+  <div class="content" style="padding:0;">
+    <div class="loading-wrap">
+      <div style="font-size:54px; animation: wobble 1.4s ease-in-out infinite; margin-bottom:20px;">🤔</div>
+      <div class="loading-dots">
+        <div class="dot"></div><div class="dot"></div><div class="dot"></div>
+      </div>
+      <div class="loading-text">きかくさん、考えてるよ〜</div>
+    </div>
+  </div>
+</div>
+
+<!-- ⑤ 企画提案結果 -->
+<div class="screen" id="screen-result" style="position:relative;">
+  <div class="result-header">
+    <div class="result-title">きかくさんのアイデア</div>
+    <div class="result-badge" id="result-badge">💬 雑談</div>
+  </div>
+  <div class="result-sub">好きな企画をタップして選んでね ♡ はいいねだよ</div>
+
+  <div class="neta-list" id="neta-list">
+    <!-- JSで動的に生成 -->
+  </div>
+
+  <div class="result-footer">
+    <button class="btn-decide" id="btn-decide" disabled onclick="showShareOverlay()">この企画でいく！</button>
+    <button class="btn-secondary" onclick="generateIdeas()">🔄 もうちょっと考えてもらう</button>
+  </div>
+
+  <div class="copy-toast" id="copy-toast">コピーしました！</div>
+
+  <div class="bye-overlay" id="bye-overlay">
+    <div class="share-cheer" id="share-cheer"></div>
+    <div class="share-card">
+      <div class="share-card-label">今日の配信企画 ✨</div>
+      <div class="share-card-topic" id="share-topic"></div>
+      <div class="share-card-tag">#きかくさん</div>
+    </div>
+    <button class="btn-x-share" id="btn-x-share" onclick="shareToX()">𝕏 でシェアする</button>
+    <button class="btn-skip-share" onclick="showScreen('home')">シェアせずに配信へ →</button>
+  </div>
+
+  <div class="bottom-nav">
+    <div class="nav-item active"><span class="nav-icon">🏠</span>ホーム</div>
+    <div class="nav-item" onclick="showScreen('profile-edit')"><span class="nav-icon">👤</span>プロフィール</div>
+  </div>
+</div>
+
+<!-- ⑥ プロフィール編集 -->
+<div class="screen" id="screen-profile-edit">
+  <div class="edit-header">
+    <button class="back-btn" onclick="showScreen('home')">← 戻る</button>
+    <div class="edit-title">プロフィール編集</div>
+    <div style="width:48px;"></div>
+  </div>
+  <div class="content" style="padding-top:12px;">
+    <div class="form-group-label">ニックネーム</div>
+    <input class="big-input" type="text" id="edit-nickname" placeholder="例：さえちゃん">
+
+    <div class="form-group-label">性別</div>
+    <div class="chip-group" id="edit-gender-group">
+      <div class="chip" onclick="selectChip(this, 'edit-gender-group')">女性</div>
+      <div class="chip" onclick="selectChip(this, 'edit-gender-group')">男性</div>
+      <div class="chip" onclick="selectChip(this, 'edit-gender-group')">その他</div>
+    </div>
+
+    <div class="form-group-label">年齢</div>
+    <div class="chip-group" id="edit-age-group">
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">10代前半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">10代後半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">20代前半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">20代後半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">30代前半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">30代後半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">40代前半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">40代後半</div>
+      <div class="chip" onclick="selectChip(this, 'edit-age-group')">50代以上</div>
+    </div>
+
+    <div class="form-group-label">家族構成</div>
+    <div class="chip-group" id="edit-family-group">
+      <div class="chip" onclick="selectChip(this, 'edit-family-group')">一人暮らし</div>
+      <div class="chip" onclick="selectChip(this, 'edit-family-group')">実家暮らし</div>
+      <div class="chip" onclick="selectChip(this, 'edit-family-group')">パートナーあり</div>
+      <div class="chip" onclick="selectChip(this, 'edit-family-group')">子供あり</div>
+    </div>
+
+    <div class="form-group-label">配信キャラクター</div>
+    <div class="chip-group" id="edit-character-group">
+      <div class="chip" onclick="selectChip(this, 'edit-character-group')">ほんわか系</div>
+      <div class="chip" onclick="selectChip(this, 'edit-character-group')">元気・明るい系</div>
+      <div class="chip" onclick="selectChip(this, 'edit-character-group')">クール・落ち着き系</div>
+      <div class="chip" onclick="selectChip(this, 'edit-character-group')">ツッコミ・面白い系</div>
+    </div>
+
+    <div class="form-group-label">リスナー層</div>
+    <div class="chip-group" id="edit-listener-group">
+      <div class="chip" onclick="selectChip(this, 'edit-listener-group')">10〜20代が多い</div>
+      <div class="chip" onclick="selectChip(this, 'edit-listener-group')">幅広い年齢層</div>
+      <div class="chip" onclick="selectChip(this, 'edit-listener-group')">同世代が多い</div>
+      <div class="chip" onclick="selectChip(this, 'edit-listener-group')">まだわからない</div>
+    </div>
+
+    <div class="form-group-label">自由記入（任意）</div>
+    <textarea class="home-textarea" id="edit-memo" placeholder="例：猫を飼ってる、旅行が好き、ゲームはRPG系..."></textarea>
+
+    <div class="spacer"></div>
+    <button class="btn-primary" onclick="saveProfile()">保存する</button>
+  </div>
+</div>
+
+<script>
+  const CHEER_MESSAGES = [
+    '今日も配信がんばれ〜！\nきかくさん、応援してるよ🌱',
+    'この企画、絶対盛り上がる！\n楽しい配信になりますように✨',
+    'いってらっしゃい！\nリスナーさんが待ってるよ🎙️',
+    'その企画、好き！\n今日も楽しんでね🎉',
+    'きかくさんも一緒に考えたよ！\nいい配信になりますように💪',
+  ];
+
+  let selectedGenre = null;
+  let selectedIdea = null;
+
+  function showScreen(name) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.getElementById('screen-' + name).classList.add('active');
+  }
+
+  function selectChip(el, groupId) {
+    document.querySelectorAll('#' + groupId + ' .chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+  }
+
+  function selectGenre(el) {
+    document.querySelectorAll('.genre-card').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedGenre = el.dataset.genre;
+  }
+
+  function saveProfileAndComplete() {
+    saveProfile();
+    showScreen('profile-complete');
+  }
+
+  function saveProfile() {
+    const profile = {
+      nickname: document.getElementById('edit-nickname') ? document.getElementById('edit-nickname').value : getSelectedChip('edit-nickname') || '',
+      gender: getSelectedChip('edit-gender-group') || getSelectedChip('gender-group'),
+      age: getSelectedChip('edit-age-group') || getSelectedChip('age-group'),
+      family: getSelectedChip('edit-family-group') || getSelectedChip('family-group'),
+      character: getSelectedChip('edit-character-group') || getSelectedChip('character-group'),
+      listener: getSelectedChip('edit-listener-group') || getSelectedChip('listener-group'),
+      memo: document.getElementById('edit-memo') ? document.getElementById('edit-memo').value : (document.getElementById('profile-memo') ? document.getElementById('profile-memo').value : ''),
+    };
+    localStorage.setItem('kikakusan_profile', JSON.stringify(profile));
+    updateHomeProfile(profile);
+  }
+
+  function getSelectedChip(groupId) {
+    const group = document.getElementById(groupId);
+    if (!group) return null;
+    const selected = group.querySelector('.chip.selected');
+    return selected ? selected.textContent : null;
+  }
+
+  function updateHomeProfile(profile) {
+    if (!profile) return;
+    if (profile.nickname) {
+      document.getElementById('home-greeting').textContent = profile.nickname + '、おつかれ！';
+      const avatar = document.getElementById('user-avatar');
+      if (avatar) avatar.textContent = profile.nickname.charAt(0);
+    }
+    const parts = [profile.age, profile.family, profile.character].filter(Boolean);
+    const summary = document.getElementById('user-profile-summary');
+    if (summary && parts.length > 0) summary.textContent = parts.join('・');
+  }
+
+  function generateIdeas() {
+    if (!selectedGenre) {
+      alert('ジャンルを選んでね！');
+      return;
+    }
+    showScreen('loading');
+    const memo = document.getElementById('today-memo') ? document.getElementById('today-memo').value : '';
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+    fetch('/ideas', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+      body: JSON.stringify({ category: selectedGenre, memo: memo }),
+    })
+      .then(res => res.json())
+      .then(data => {
+        renderIdeas(data.ideas, selectedGenre);
+        showScreen('result');
+      })
+      .catch(() => {
+        alert('エラーが発生しました。もう一度試してね。');
+        showScreen('home');
+      });
+  }
+
+  function renderIdeas(ideas, genre) {
+    const list = document.getElementById('neta-list');
+    const badge = document.getElementById('result-badge');
+    if (badge) badge.textContent = genre;
+    selectedIdea = null;
+    document.getElementById('btn-decide').disabled = true;
+
+    list.innerHTML = ideas.map((idea, i) => `
+      <div class="neta-row" onclick="selectNeta(this, '${escapeHtml(idea)}')">
+        <div class="neta-num">${i + 1}</div>
+        <div class="neta-text">${escapeHtml(idea)}</div>
+        <div class="row-actions">
+          <button class="copy-btn" onclick="event.stopPropagation(); copyNeta(this, '${escapeHtml(idea)}')">⎘</button>
+          <button class="heart-btn" onclick="event.stopPropagation(); toggleHeart(this, '${escapeHtml(idea)}', '${escapeHtml(genre)}')">♡</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function escapeHtml(str) {
+    return String(str).replace(/[&<>"']/g, m => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+  }
+
+  function selectNeta(el, idea) {
+    document.querySelectorAll('.neta-row').forEach(r => r.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedIdea = idea;
+    document.getElementById('btn-decide').disabled = false;
+  }
+
+  function copyNeta(btn, idea) {
+    navigator.clipboard.writeText(idea).then(() => {
+      btn.textContent = '✓';
+      btn.classList.add('copied');
+      const toast = document.getElementById('copy-toast');
+      toast.classList.add('show');
+      setTimeout(() => {
+        toast.classList.remove('show');
+        btn.textContent = '⎘';
+        btn.classList.remove('copied');
+      }, 1500);
+    });
+  }
+
+  function toggleHeart(btn, idea, genre) {
+    btn.classList.toggle('liked');
+    const isLiked = btn.classList.contains('liked');
+    if (isLiked) {
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+      fetch('/ideas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrfToken },
+        body: JSON.stringify({ like: true, title: idea, category: genre }),
+      }).catch(() => {});
+    }
+  }
+
+  function showShareOverlay() {
+    if (!selectedIdea) return;
+    const cheer = CHEER_MESSAGES[Math.floor(Math.random() * CHEER_MESSAGES.length)];
+    document.getElementById('share-cheer').textContent = cheer;
+    document.getElementById('share-topic').textContent = selectedIdea;
+    document.getElementById('bye-overlay').classList.add('show');
+  }
+
+  function shareToX() {
+    const text = `今日の配信企画は「${selectedIdea}」🎙️\n#きかくさん #REALITY配信`;
+    const url = 'https://twitter.com/intent/tweet?text=' + encodeURIComponent(text);
+    window.open(url, '_blank');
+  }
+
+  // 初期化：localStorageにプロフィールがあればホームへ
+  window.addEventListener('DOMContentLoaded', () => {
+    const saved = localStorage.getItem('kikakusan_profile');
+    if (saved) {
+      const profile = JSON.parse(saved);
+      updateHomeProfile(profile);
+      showScreen('home');
+    }
+  });
+</script>
