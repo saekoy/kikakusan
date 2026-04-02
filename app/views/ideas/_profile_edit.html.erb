@@ -1,0 +1,74 @@
+<div class="screen" data-ideas-target="screen" data-screen-name="profile-edit">
+  <div class="edit-header">
+    <button class="back-btn"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="home">
+      ← 戻る
+    </button>
+    <div class="edit-title">プロフィール編集</div>
+    <div style="width:48px;"></div>
+  </div>
+
+  <div class="content" style="padding-top:12px;">
+    <div class="form-group-label">ニックネーム</div>
+    <input class="big-input"
+           type="text"
+           data-ideas-target="editNickname"
+           placeholder="例：さえちゃん">
+
+    <div class="form-group-label">性別</div>
+    <div class="chip-group" data-group="edit-gender">
+      <div class="chip" data-action="click->ideas#selectChip">女性</div>
+      <div class="chip" data-action="click->ideas#selectChip">男性</div>
+      <div class="chip" data-action="click->ideas#selectChip">その他</div>
+    </div>
+
+    <div class="form-group-label">年齢</div>
+    <div class="chip-group" data-group="edit-age">
+      <div class="chip" data-action="click->ideas#selectChip">10代前半</div>
+      <div class="chip" data-action="click->ideas#selectChip">10代後半</div>
+      <div class="chip" data-action="click->ideas#selectChip">20代前半</div>
+      <div class="chip" data-action="click->ideas#selectChip">20代後半</div>
+      <div class="chip" data-action="click->ideas#selectChip">30代前半</div>
+      <div class="chip" data-action="click->ideas#selectChip">30代後半</div>
+      <div class="chip" data-action="click->ideas#selectChip">40代前半</div>
+      <div class="chip" data-action="click->ideas#selectChip">40代後半</div>
+      <div class="chip" data-action="click->ideas#selectChip">50代以上</div>
+    </div>
+
+    <div class="form-group-label">家族構成</div>
+    <div class="chip-group" data-group="edit-family">
+      <div class="chip" data-action="click->ideas#selectChip">一人暮らし</div>
+      <div class="chip" data-action="click->ideas#selectChip">実家暮らし</div>
+      <div class="chip" data-action="click->ideas#selectChip">パートナーあり</div>
+      <div class="chip" data-action="click->ideas#selectChip">子供あり</div>
+    </div>
+
+    <div class="form-group-label">配信キャラクター</div>
+    <div class="chip-group" data-group="edit-character">
+      <div class="chip" data-action="click->ideas#selectChip">ほんわか系</div>
+      <div class="chip" data-action="click->ideas#selectChip">元気・明るい系</div>
+      <div class="chip" data-action="click->ideas#selectChip">クール・落ち着き系</div>
+      <div class="chip" data-action="click->ideas#selectChip">ツッコミ・面白い系</div>
+    </div>
+
+    <div class="form-group-label">リスナー層</div>
+    <div class="chip-group" data-group="edit-listener">
+      <div class="chip" data-action="click->ideas#selectChip">10〜20代が多い</div>
+      <div class="chip" data-action="click->ideas#selectChip">幅広い年齢層</div>
+      <div class="chip" data-action="click->ideas#selectChip">同世代が多い</div>
+      <div class="chip" data-action="click->ideas#selectChip">まだわからない</div>
+    </div>
+
+    <div class="form-group-label">自由記入（任意）</div>
+    <textarea class="home-textarea"
+              data-ideas-target="editMemo"
+              placeholder="例：猫を飼ってる、旅行が好き、ゲームはRPG系..."></textarea>
+
+    <div class="spacer"></div>
+    <button class="btn-primary"
+            data-action="click->ideas#saveProfileFromEdit">
+      保存する
+    </button>
+  </div>
+</div>

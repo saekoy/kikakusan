@@ -1,0 +1,83 @@
+<div class="screen" data-ideas-target="screen" data-screen-name="home">
+  <div class="home-header">
+    <div>
+      <div class="home-greeting" data-ideas-target="homeGreeting">おつかれ！</div>
+      <div class="home-title">今日の企画、考えよっか</div>
+    </div>
+    <div class="mini-mascot">
+      <div class="mm-bun mm-bun-l"></div>
+      <div class="mm-bun mm-bun-r"></div>
+      <div class="mm-head">
+        <div class="mm-hair"></div>
+        <div class="mm-eyes">
+          <div class="mm-eye"></div>
+          <div class="mm-eye"></div>
+        </div>
+        <div class="mm-mouth"></div>
+      </div>
+      <div class="mm-body"></div>
+    </div>
+  </div>
+
+  <div class="content" style="padding-top:0;">
+    <div class="user-bar">
+      <div class="user-avatar" data-ideas-target="userAvatar">？</div>
+      <div class="user-name" data-ideas-target="userProfileSummary">プロフィール未設定</div>
+      <button class="user-edit"
+              data-action="click->ideas#showScreen"
+              data-ideas-screen-param="profile-edit">
+        編集
+      </button>
+    </div>
+
+    <div class="section-label">今日のジャンル</div>
+    <div class="genre-grid">
+      <div class="genre-card"
+           data-action="click->ideas#selectGenre"
+           data-genre="トーク・雑談">
+        <span class="g-emoji">💬</span>
+        <span class="g-name">トーク・雑談</span>
+      </div>
+      <div class="genre-card"
+           data-action="click->ideas#selectGenre"
+           data-genre="ゲーム・チャレンジ">
+        <span class="g-emoji">🎮</span>
+        <span class="g-name">ゲーム・チャレンジ</span>
+      </div>
+      <div class="genre-card"
+           data-action="click->ideas#selectGenre"
+           data-genre="歌・パフォーマンス">
+        <span class="g-emoji">🎵</span>
+        <span class="g-name">歌・パフォーマンス</span>
+      </div>
+      <div class="genre-card"
+           data-action="click->ideas#selectGenre"
+           data-genre="リスナー参加型">
+        <span class="g-emoji">🎲</span>
+        <span class="g-name">リスナー参加型</span>
+      </div>
+    </div>
+
+    <div class="section-label">今日のこと（任意）</div>
+    <textarea class="home-textarea"
+              data-ideas-target="todayMemo"
+              placeholder="例：バイトでちょっと嫌なことがあった、最近ハマってるドラマがある..."></textarea>
+
+    <button class="btn-primary"
+            data-action="click->ideas#generateIdeas">
+      企画を考えてもらう
+    </button>
+    <p class="notice">プロフィールはこの端末にのみ保存されます</p>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item active">
+      <span class="nav-icon">🏠</span>ホーム
+    </button>
+    <button class="nav-item"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="profile-edit">
+      <span class="nav-icon">👤</span>プロフィール
+    </button>
+  </div>
+</div>

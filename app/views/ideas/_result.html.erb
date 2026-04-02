@@ -1,0 +1,55 @@
+<div class="screen" data-ideas-target="screen" data-screen-name="result" style="position:relative;">
+  <div class="result-header">
+    <div class="result-title">きかくさんのアイデア</div>
+    <div class="result-badge" data-ideas-target="resultBadge"></div>
+  </div>
+  <div class="result-sub">好きな企画をタップして選んでね ♡ はいいねだよ</div>
+
+  <div class="neta-list" data-ideas-target="netaList">
+    <%# 企画リストはJSで動的に生成される %>
+  </div>
+
+  <div class="result-footer">
+    <button class="btn-decide"
+            data-ideas-target="btnDecide"
+            data-action="click->ideas#showShareOverlay"
+            disabled>
+      この企画でいく！
+    </button>
+    <button class="btn-secondary"
+            data-action="click->ideas#generateIdeas">
+      🔄 もうちょっと考えてもらう
+    </button>
+  </div>
+
+  <div class="copy-toast" data-ideas-target="copyToast">コピーしました！</div>
+
+  <div class="bye-overlay" data-ideas-target="byeOverlay">
+    <div class="share-cheer" data-ideas-target="shareCheer"></div>
+    <div class="share-card">
+      <div class="share-card-label">今日の配信企画 ✨</div>
+      <div class="share-card-topic" data-ideas-target="shareTopic"></div>
+      <div class="share-card-tag">#きかくさん</div>
+    </div>
+    <button class="btn-x-share"
+            data-action="click->ideas#shareToX">
+      𝕏 でシェアする
+    </button>
+    <button class="btn-skip-share"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="home">
+      シェアせずに配信へ →
+    </button>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item active">
+      <span class="nav-icon">🏠</span>ホーム
+    </button>
+    <button class="nav-item"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="profile-edit">
+      <span class="nav-icon">👤</span>プロフィール
+    </button>
+  </div>
+</div>
