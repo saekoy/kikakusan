@@ -3,7 +3,12 @@ class IdeasController < ApplicationController
   end
 
   def create
-    dummy_ideas = Array.new(10) { |i| "企画アイデア#{i + 1}" }
-    render json: { ideas: dummy_ideas }
+    ideas = GeminiService.new(
+      category: params[:category],
+      memo:     params[:memo],
+      profile:  params[:profile] || {}
+    ).call
+
+    render json: { ideas: ideas }
   end
 end
