@@ -25,7 +25,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop-rails-omakase', require: false
   gem 'dotenv-rails'
-  gem 'sqlite3', '>= 2.1'
+  gem 'sqlite3'
 end
 
 group :development do
