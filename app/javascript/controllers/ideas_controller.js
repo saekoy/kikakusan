@@ -162,17 +162,17 @@ export default class extends Controller {
     this.netaListTarget.innerHTML = ideas.map((idea, i) => `
       <div class="neta-row"
            data-action="click->ideas#selectNeta"
-           data-idea="${this.escapeHtml(idea.title)}">
+           data-idea="${this.escapeHtml(idea)}">
         <div class="neta-num">${i + 1}</div>
-        <div class="neta-text">${this.escapeHtml(idea.title)}</div>
+        <div class="neta-text">${this.escapeHtml(idea)}</div>
         <div class="row-actions">
           <button class="copy-btn"
                   data-action="click->ideas#copyNeta"
-                  data-idea="${this.escapeHtml(idea.title)}">⎘</button>
+                  data-idea="${this.escapeHtml(idea)}">⎘</button>
           <button class="heart-btn"
                   data-action="click->ideas#toggleHeart"
-                  data-idea-id="${idea.id}"
-                  data-idea="${this.escapeHtml(idea.title)}">♡</button>
+                  data-idea="${this.escapeHtml(idea)}"
+                  data-category="${this.escapeHtml(this.selectedGenre)}">♡</button>
         </div>
       </div>
     `).join("")
@@ -222,9 +222,10 @@ export default class extends Controller {
       localStorage.setItem("kikakusan_liked_ideas", JSON.stringify(updated))
 
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-      fetch(`/ideas/${btn.dataset.ideaId}/like`, {
+      fetch("/ideas/like", {
         method: "POST",
-        headers: { "X-CSRF-Token": csrfToken },
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
+        body: JSON.stringify({ title, category: btn.dataset.category }),
       }).catch(() => {})
     } else {
       const updated = liked.filter(t => t !== title)

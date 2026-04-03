@@ -41,34 +41,37 @@ RSpec.describe 'Ideas', type: :request do
         expect(json['ideas'].length).to eq(10)
       end
 
-      it 'ideas の各要素が id と title を持つ' do
-        post '/ideas', params: valid_params
-        json = JSON.parse(response.body)
-        idea = json['ideas'].first
-        expect(idea).to have_key('id')
-        expect(idea).to have_key('title')
-      end
-
-      it '企画が DB に保存される' do
+      it 'DB には保存されない' do
         expect {
           post '/ideas', params: valid_params
-        }.to change(Idea, :count).by(10)
+        }.not_to change(Idea, :count)
       end
     end
   end
 
-  describe 'POST /ideas/:id/like' do
-    let!(:idea) { Idea.create!(title: '残業あるある', category: 'トーク・雑談') }
+  describe 'POST /ideas/like' do
+    let(:like_params) { { title: '残業あるある', category: 'トーク・雑談' } }
 
     it 'HTTP ステータス 200 を返す' do
-      post "/ideas/#{idea.id}/like"
+      post '/ideas/like', params: like_params
       expect(response).to have_http_status(200)
     end
 
-    it 'like_count が1増える' do
+    it 'いいねされた企画が DB に保存される' do
       expect {
-        post "/ideas/#{idea.id}/like"
-      }.to change { idea.reload.like_count }.by(1)
+        post '/ideas/like', params: like_params
+      }.to change(Idea, :count).by(1)
+    end
+
+    it '同じ企画に2回いいねしても DB レコードは1件' do
+      expect {
+        2.times { post '/ideas/like', params: like_params }
+      }.to change(Idea, :count).by(1)
+    end
+
+    it 'like_count が増える' do
+      post '/ideas/like', params: like_params
+      expect(Idea.find_by(title: '残業あるある').like_count).to eq(1)
     end
   end
 end

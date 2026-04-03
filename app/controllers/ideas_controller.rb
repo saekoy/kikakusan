@@ -10,13 +10,11 @@ class IdeasController < ApplicationController
       liked_ideas: params[:liked_ideas] || []
     ).call
 
-    saved = titles.map { |title| Idea.create!(title: title, category: params[:category]) }
-
-    render json: { ideas: saved.map { |i| { id: i.id, title: i.title } } }
+    render json: { ideas: titles }
   end
 
   def like
-    idea = Idea.find(params[:id])
+    idea = Idea.find_or_create_by!(title: params[:title], category: params[:category])
     idea.increment!(:like_count)
     render json: { like_count: idea.like_count }
   end
