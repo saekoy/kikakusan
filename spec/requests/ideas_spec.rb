@@ -42,9 +42,9 @@ RSpec.describe 'Ideas', type: :request do
       end
 
       it 'DB には保存されない' do
-        expect {
+        expect do
           post '/ideas', params: valid_params
-        }.not_to change(Idea, :count)
+        end.not_to change(Idea, :count)
       end
     end
   end
@@ -58,15 +58,15 @@ RSpec.describe 'Ideas', type: :request do
     end
 
     it 'いいねされた企画が DB に保存される' do
-      expect {
+      expect do
         post '/ideas/like', params: like_params
-      }.to change(Idea, :count).by(1)
+      end.to change(Idea, :count).by(1)
     end
 
     it '同じ企画に2回いいねしても DB レコードは1件' do
-      expect {
+      expect do
         2.times { post '/ideas/like', params: like_params }
-      }.to change(Idea, :count).by(1)
+      end.to change(Idea, :count).by(1)
     end
 
     it 'like_count が増える' do

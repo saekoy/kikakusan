@@ -39,12 +39,12 @@ class GeminiService
 
   def build_profile_text
     parts = []
-    parts << "性別：#{@profile[:gender]}"          if @profile[:gender].present?
-    parts << "年齢：#{@profile[:age]}"              if @profile[:age].present?
-    parts << "家族構成：#{@profile[:family]}"       if @profile[:family].present?
+    parts << "性別：#{@profile[:gender]}" if @profile[:gender].present?
+    parts << "年齢：#{@profile[:age]}" if @profile[:age].present?
+    parts << "家族構成：#{@profile[:family]}" if @profile[:family].present?
     parts << "配信キャラ：#{@profile[:character]}"  if @profile[:character].present?
     parts << "リスナー層：#{@profile[:listener]}"   if @profile[:listener].present?
-    parts << "自由記入：#{@profile[:memo]}"         if @profile[:memo].present?
+    parts << "自由記入：#{@profile[:memo]}" if @profile[:memo].present?
     parts.empty? ? '情報なし' : parts.join('、')
   end
 

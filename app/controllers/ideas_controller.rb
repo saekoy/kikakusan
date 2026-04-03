@@ -4,9 +4,9 @@ class IdeasController < ApplicationController
 
   def create
     titles = GeminiService.new(
-      category:    params[:category],
-      memo:        params[:memo],
-      profile:     params[:profile] || {},
+      category: params[:category],
+      memo: params[:memo],
+      profile: params[:profile] || {},
       liked_ideas: params[:liked_ideas] || []
     ).call
 
