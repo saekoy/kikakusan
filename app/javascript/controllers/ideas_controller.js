@@ -136,11 +136,12 @@ export default class extends Controller {
     this.showScreen({ params: { screen: "loading" } })
     const memo = this.todayMemoTarget.value
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+    const likedIdeas = JSON.parse(localStorage.getItem("kikakusan_liked_ideas") || "[]")
 
     fetch("/ideas", {
       method: "POST",
       headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-      body: JSON.stringify({ category: this.selectedGenre, memo }),
+      body: JSON.stringify({ category: this.selectedGenre, memo, liked_ideas: likedIdeas }),
     })
       .then(res => res.json())
       .then(data => {
@@ -161,17 +162,17 @@ export default class extends Controller {
     this.netaListTarget.innerHTML = ideas.map((idea, i) => `
       <div class="neta-row"
            data-action="click->ideas#selectNeta"
-           data-idea="${this.escapeHtml(idea)}">
+           data-idea="${this.escapeHtml(idea.title)}">
         <div class="neta-num">${i + 1}</div>
-        <div class="neta-text">${this.escapeHtml(idea)}</div>
+        <div class="neta-text">${this.escapeHtml(idea.title)}</div>
         <div class="row-actions">
           <button class="copy-btn"
                   data-action="click->ideas#copyNeta"
-                  data-idea="${this.escapeHtml(idea)}">⎘</button>
+                  data-idea="${this.escapeHtml(idea.title)}">⎘</button>
           <button class="heart-btn"
                   data-action="click->ideas#toggleHeart"
-                  data-idea="${this.escapeHtml(idea)}"
-                  data-category="${this.escapeHtml(this.selectedGenre)}">♡</button>
+                  data-idea-id="${idea.id}"
+                  data-idea="${this.escapeHtml(idea.title)}">♡</button>
         </div>
       </div>
     `).join("")
@@ -213,13 +214,21 @@ export default class extends Controller {
     event.stopPropagation()
     const btn = event.currentTarget
     btn.classList.toggle("liked")
+    const title = btn.dataset.idea
+    const liked = JSON.parse(localStorage.getItem("kikakusan_liked_ideas") || "[]")
+
     if (btn.classList.contains("liked")) {
+      const updated = [title, ...liked.filter(t => t !== title)].slice(0, 20)
+      localStorage.setItem("kikakusan_liked_ideas", JSON.stringify(updated))
+
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-      fetch("/ideas", {
+      fetch(`/ideas/${btn.dataset.ideaId}/like`, {
         method: "POST",
-        headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-        body: JSON.stringify({ like: true, title: btn.dataset.idea, category: btn.dataset.category }),
+        headers: { "X-CSRF-Token": csrfToken },
       }).catch(() => {})
+    } else {
+      const updated = liked.filter(t => t !== title)
+      localStorage.setItem("kikakusan_liked_ideas", JSON.stringify(updated))
     }
   }
 

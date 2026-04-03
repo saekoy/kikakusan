@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   root "ideas#index"
   post "/ideas", to: "ideas#create"
+  post "/ideas/:id/like", to: "ideas#like"
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.
