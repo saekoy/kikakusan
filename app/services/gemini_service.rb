@@ -53,7 +53,10 @@ class GeminiService
     body = {
       contents: [{
         parts: [{ text: prompt }]
-      }]
+      }],
+      generationConfig: {
+        maxOutputTokens: 300
+      }
     }.to_json
 
     http         = Net::HTTP.new(uri.host, uri.port)
