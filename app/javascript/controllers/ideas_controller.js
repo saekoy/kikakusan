@@ -11,6 +11,7 @@ export default class extends Controller {
     "shareCheer",
     "shareTopic",
     "homeGreeting",
+    "genreError",
     "resultBadge",
     "editMemo",
     "profileMemo",
@@ -126,9 +127,10 @@ export default class extends Controller {
 
   generateIdeas() {
     if (!this.selectedGenre) {
-      alert("ジャンルを選んでね！")
+      this.genreErrorTarget.classList.add("show")
       return
     }
+    this.genreErrorTarget.classList.remove("show")
     this.showScreen({ params: { screen: "loading" } })
     const memo = this.todayMemoTarget.value
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
