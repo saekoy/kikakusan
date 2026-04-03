@@ -21,10 +21,10 @@ group :development, :test do
   gem 'brakeman', require: false
   gem 'bundler-audit', require: false
   gem 'debug', platforms: %i[mri windows], require: 'debug/prelude'
+  gem 'dotenv-rails'
   gem 'factory_bot_rails'
   gem 'rspec-rails'
   gem 'rubocop-rails-omakase', require: false
-  gem 'dotenv-rails'
   gem 'sqlite3'
 end
 

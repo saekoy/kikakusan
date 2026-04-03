@@ -1,7 +1,7 @@
 require 'net/http'
 
 class GeminiService
-  API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent"
+  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent'
 
   def initialize(category:, memo:, profile: {})
     @category = category
@@ -18,7 +18,7 @@ class GeminiService
 
   def build_prompt
     profile_text = build_profile_text
-    memo_text    = @memo.present? ? "今日のこと：#{@memo}" : ""
+    memo_text    = @memo.present? ? "今日のこと：#{@memo}" : ''
 
     <<~PROMPT
       あなたはVライバーの企画ディレクターです。
@@ -27,7 +27,7 @@ class GeminiService
       制約：準備10分以内・テンションが低くても成立・コメントが少なくても成立
 
       配信者情報：#{profile_text}
-      ジャンル：#{@category}#{memo_text.empty? ? "" : " / #{memo_text}"}
+      ジャンル：#{@category}#{" / #{memo_text}" unless memo_text.empty?}
 
       出力：企画タイトルのみのJSON配列。説明不要。各20文字以内。
       例：["タイトル1","タイトル2"]
@@ -36,13 +36,13 @@ class GeminiService
 
   def build_profile_text
     parts = []
-    parts << "性別：#{@profile[:gender]}"       if @profile[:gender].present?
-    parts << "年齢：#{@profile[:age]}"           if @profile[:age].present?
-    parts << "家族構成：#{@profile[:family]}"    if @profile[:family].present?
+    parts << "性別：#{@profile[:gender]}" if @profile[:gender].present?
+    parts << "年齢：#{@profile[:age]}" if @profile[:age].present?
+    parts << "家族構成：#{@profile[:family]}" if @profile[:family].present?
     parts << "配信キャラ：#{@profile[:character]}" if @profile[:character].present?
     parts << "リスナー層：#{@profile[:listener]}" if @profile[:listener].present?
     parts << "自由記入：#{@profile[:memo]}"      if @profile[:memo].present?
-    parts.empty? ? "情報なし" : parts.join("、")
+    parts.empty? ? '情報なし' : parts.join('、')
   end
 
   def request_to_gemini(prompt)
@@ -56,18 +56,18 @@ class GeminiService
     http          = Net::HTTP.new(uri.host, uri.port)
     http.use_ssl  = true
     request       = Net::HTTP::Post.new(uri)
-    request["Content-Type"]    = "application/json"
-    request["x-goog-api-key"]  = ENV["GEMINI_API_KEY"]
-    request.body  = body
+    request['Content-Type']    = 'application/json'
+    request['x-goog-api-key']  = ENV.fetch('GEMINI_API_KEY', nil)
+    request.body = body
 
     http.request(request)
   end
 
   def parse_ideas(response)
     body      = JSON.parse(response.body)
-    text      = body.dig("candidates", 0, "content", "parts", 0, "text")
+    text      = body.dig('candidates', 0, 'content', 'parts', 0, 'text')
     json_text = text&.match(/\[.*\]/m)&.to_s
-    JSON.parse(json_text || "[]")
+    JSON.parse(json_text || '[]')
   rescue StandardError => e
     Rails.logger.error "GeminiService error: #{e.message}"
     []
