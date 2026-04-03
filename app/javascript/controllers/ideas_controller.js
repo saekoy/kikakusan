@@ -11,7 +11,6 @@ export default class extends Controller {
     "shareCheer",
     "shareTopic",
     "homeGreeting",
-    "userProfileSummary",
     "resultBadge",
     "editMemo",
     "profileMemo",
@@ -100,8 +99,6 @@ export default class extends Controller {
   updateHomeProfile(profile) {
     if (!profile) return
     this.homeGreetingTarget.textContent = this.greeting()
-    const parts = [profile.age, profile.family, profile.character].filter(Boolean)
-    if (parts.length > 0) this.userProfileSummaryTarget.textContent = parts.join("・")
   }
 
   loadProfile() {
@@ -187,11 +184,19 @@ export default class extends Controller {
 
   selectNeta(event) {
     event.stopPropagation()
-    this.element.querySelectorAll(".neta-row").forEach(r => r.classList.remove("selected"))
     const row = event.currentTarget
-    row.classList.add("selected")
-    this.selectedIdea = row.dataset.idea
-    this.btnDecideTarget.disabled = false
+    const isAlreadySelected = row.classList.contains("selected")
+
+    this.element.querySelectorAll(".neta-row").forEach(r => r.classList.remove("selected"))
+
+    if (isAlreadySelected) {
+      this.selectedIdea = null
+      this.btnDecideTarget.disabled = true
+    } else {
+      row.classList.add("selected")
+      this.selectedIdea = row.dataset.idea
+      this.btnDecideTarget.disabled = false
+    }
   }
 
   copyNeta(event) {

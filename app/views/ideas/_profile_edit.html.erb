@@ -1,12 +1,6 @@
 <div class="screen" data-ideas-target="screen" data-screen-name="profile-edit">
   <div class="edit-header">
-    <button class="back-btn"
-            data-action="click->ideas#showScreen"
-            data-ideas-screen-param="home">
-      ← 戻る
-    </button>
     <div class="edit-title">プロフィール編集</div>
-    <div style="width:48px;"></div>
   </div>
 
   <div class="content" style="padding-top:12px;">
@@ -35,15 +29,16 @@
       <div class="chip" data-action="click->ideas#selectChip">一人暮らし</div>
       <div class="chip" data-action="click->ideas#selectChip">実家暮らし</div>
       <div class="chip" data-action="click->ideas#selectChip">パートナーあり</div>
-      <div class="chip" data-action="click->ideas#selectChip">子供あり</div>
+      <div class="chip" data-action="click->ideas#selectChip">子どもあり</div>
     </div>
 
     <div class="form-group-label">配信キャラクター</div>
     <div class="chip-group" data-group="edit-character">
-      <div class="chip" data-action="click->ideas#selectChip">ほんわか系</div>
-      <div class="chip" data-action="click->ideas#selectChip">元気・明るい系</div>
-      <div class="chip" data-action="click->ideas#selectChip">クール・落ち着き系</div>
-      <div class="chip" data-action="click->ideas#selectChip">ツッコミ・面白い系</div>
+      <div class="chip" data-action="click->ideas#selectChip">元気・明るい</div>
+      <div class="chip" data-action="click->ideas#selectChip">いやし</div>
+      <div class="chip" data-action="click->ideas#selectChip">クール</div>
+      <div class="chip" data-action="click->ideas#selectChip">イケカテ</div>
+      <div class="chip" data-action="click->ideas#selectChip">ネタカテ</div>
     </div>
 
     <div class="form-group-label">リスナー層</div>
@@ -57,12 +52,26 @@
     <div class="form-group-label">自由記入（任意）</div>
     <textarea class="home-textarea"
               data-ideas-target="editMemo"
-              placeholder="例：猫を飼ってる、旅行が好き、ゲームはRPG系..."></textarea>
+              placeholder="例：大学◯年生、社会人◯年目、猫を飼ってる、旅行が好き、歌配信をがんばりたい"></textarea>
 
     <div class="spacer"></div>
     <button class="btn-primary"
             data-action="click->ideas#saveProfileFromEdit">
       保存する
+    </button>
+    <p class="notice">プロフィールはこの端末にのみ保存されます</p>
+  </div>
+
+  <div class="bottom-nav">
+    <button class="nav-item"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="home">
+      <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
+      <span>ホーム</span>
+    </button>
+    <button class="nav-item active">
+      <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
+      <span>プロフィール</span>
     </button>
   </div>
 </div>

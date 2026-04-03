@@ -3,7 +3,6 @@
     <div class="result-title">きかくさんのアイデア</div>
     <div class="result-badge" data-ideas-target="resultBadge"></div>
   </div>
-  <div class="result-sub">好きな企画をタップして選んでね ♡ はいいねだよ</div>
 
   <div class="neta-list" data-ideas-target="netaList">
     <%# 企画リストはJSで動的に生成される %>
@@ -14,11 +13,11 @@
             data-ideas-target="btnDecide"
             data-action="click->ideas#showShareOverlay"
             disabled>
-      この企画でいく！
+      この企画にする
     </button>
     <button class="btn-secondary"
             data-action="click->ideas#generateIdeas">
-      🔄 もうちょっと考えてもらう
+      もう一回考える
     </button>
   </div>
 
@@ -43,13 +42,17 @@
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-item active">
-      <span class="nav-icon">🏠</span>ホーム
+    <button class="nav-item active"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="home">
+      <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
+      <span>ホーム</span>
     </button>
     <button class="nav-item"
             data-action="click->ideas#showScreen"
             data-ideas-screen-param="profile-edit">
-      <span class="nav-icon">👤</span>プロフィール
+      <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
+      <span>プロフィール</span>
     </button>
   </div>
 </div>
