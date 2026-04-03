@@ -518,17 +518,17 @@ body {
 /* ===== コピーボタン ===== */
 
 .copy-btn {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   border: 1.5px solid #E0E0E0;
   background: white;
-  font-size: 18px;
+  font-size: 21px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #BBB;
+  color: #999;
   transition: all 0.15s;
   flex-shrink: 0;
   font-family: inherit;

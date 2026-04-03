@@ -166,7 +166,7 @@ export default class extends Controller {
         <div class="row-actions">
           <button class="copy-btn"
                   data-action="click->ideas#copyNeta"
-                  data-idea="${this.escapeHtml(idea)}">⎘</button>
+                  data-idea="${this.escapeHtml(idea)}">❐</button>
           <button class="heart-btn"
                   data-action="click->ideas#toggleHeart"
                   data-idea="${this.escapeHtml(idea)}"
@@ -209,7 +209,7 @@ export default class extends Controller {
       this.copyToastTarget.classList.add("show")
       setTimeout(() => {
         this.copyToastTarget.classList.remove("show")
-        btn.textContent = "⎘"
+        btn.textContent = "📋"
         btn.classList.remove("copied")
       }, 1500)
     })
