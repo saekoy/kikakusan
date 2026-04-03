@@ -11,10 +11,8 @@ export default class extends Controller {
     "shareCheer",
     "shareTopic",
     "homeGreeting",
-    "userAvatar",
     "userProfileSummary",
     "resultBadge",
-    "editNickname",
     "editMemo",
     "profileMemo",
   ]
@@ -55,7 +53,6 @@ export default class extends Controller {
 
   saveProfileFromSetup() {
     const profile = {
-      nickname: "",
       gender: this.getSelectedChip("setup-gender"),
       age: this.getSelectedChip("setup-age"),
       family: this.getSelectedChip("setup-family"),
@@ -70,7 +67,6 @@ export default class extends Controller {
 
   saveProfileFromEdit() {
     const profile = {
-      nickname: this.editNicknameTarget.value,
       gender: this.getSelectedChip("edit-gender"),
       age: this.getSelectedChip("edit-age"),
       family: this.getSelectedChip("edit-family"),
@@ -94,12 +90,16 @@ export default class extends Controller {
     })
   }
 
+  greeting() {
+    const hour = new Date().getHours()
+    if (hour >= 5 && hour < 10) return "おはよう"   // 5〜10時
+    if (hour >= 10 && hour < 18) return "こんにちは" // 10〜18時
+    return "こんばんは"                              // 18〜5時
+  }
+
   updateHomeProfile(profile) {
     if (!profile) return
-    if (profile.nickname) {
-      this.homeGreetingTarget.textContent = `${profile.nickname}、おつかれ！`
-      this.userAvatarTarget.textContent = profile.nickname.charAt(0)
-    }
+    this.homeGreetingTarget.textContent = this.greeting()
     const parts = [profile.age, profile.family, profile.character].filter(Boolean)
     if (parts.length > 0) this.userProfileSummaryTarget.textContent = parts.join("・")
   }
@@ -115,7 +115,6 @@ export default class extends Controller {
     this.updateHomeProfile(profile)
 
     // 編集フォームに反映
-    if (this.hasEditNicknameTarget) this.editNicknameTarget.value = profile.nickname || ""
     if (this.hasEditMemoTarget) this.editMemoTarget.value = profile.memo || ""
     if (profile.gender) this.selectChipByValue("edit-gender", profile.gender)
     if (profile.age) this.selectChipByValue("edit-age", profile.age)
