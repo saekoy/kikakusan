@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Yomogi', sans-serif;
   background: #FAFAF8;
   min-height: 100vh;
 }
@@ -1061,4 +1061,15 @@ body {
   background: rgba(0, 0, 0, 0.07);
   border-radius: 50%;
   margin-top: 8px;
+}
+
+.mascot-img {
+  width: 180px;
+  margin-bottom: 8px;
+}
+
+.mini-mascot-img {
+  width: 52px;
+  flex-shrink: 0;
+  animation: float 3.5s ease-in-out infinite;
 }
