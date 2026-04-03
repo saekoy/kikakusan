@@ -31,13 +31,13 @@ RSpec.describe 'Ideas', type: :request do
 
       it 'ideas キーを含む' do
         post '/ideas', params: valid_params
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json).to have_key('ideas')
       end
 
       it 'ideas が10件返る' do
         post '/ideas', params: valid_params
-        json = JSON.parse(response.body)
+        json = response.parsed_body
         expect(json['ideas'].length).to eq(10)
       end
 

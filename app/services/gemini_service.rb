@@ -1,7 +1,7 @@
 require 'net/http'
 
 class GeminiService
-  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent'
+  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent'.freeze
 
   def initialize(category:, memo:, profile: {}, liked_ideas: [])
     @category    = category

@@ -15,7 +15,7 @@ class IdeasController < ApplicationController
 
   def like
     idea = Idea.find_or_create_by!(title: params[:title], category: params[:category])
-    idea.increment!(:like_count)
+    idea.update!(like_count: idea.like_count + 1)
     render json: { like_count: idea.like_count }
   end
 end
