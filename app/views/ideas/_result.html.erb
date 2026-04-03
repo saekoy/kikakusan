@@ -4,6 +4,8 @@
     <div class="result-badge" data-ideas-target="resultBadge"></div>
   </div>
 
+  <p class="heart-hint">♡を押すと次回の提案がよりあなた好みになるよ</p>
+
   <div class="neta-list" data-ideas-target="netaList">
     <%# 企画リストはJSで動的に生成される %>
   </div>
@@ -11,9 +13,9 @@
   <div class="result-footer">
     <button class="btn-decide"
             data-ideas-target="btnDecide"
-            data-action="click->ideas#showShareOverlay"
+            data-action="click->ideas#shareToX"
             disabled>
-      この企画にする
+      𝕏 でシェアする
     </button>
     <button class="btn-secondary"
             data-action="click->ideas#generateIdeas">

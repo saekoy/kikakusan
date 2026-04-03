@@ -19,7 +19,7 @@ export default class extends Controller {
 
   connect() {
     this.selectedGenre = null
-    this.selectedIdea = null
+    this.selectedIdeas = []
     this.loadProfile()
   }
 
@@ -154,7 +154,7 @@ export default class extends Controller {
 
   renderIdeas(ideas) {
     this.resultBadgeTarget.textContent = this.selectedGenre
-    this.selectedIdea = null
+    this.selectedIdeas = []
     this.btnDecideTarget.disabled = true
 
     this.netaListTarget.innerHTML = ideas.map((idea, i) => `
@@ -187,18 +187,17 @@ export default class extends Controller {
   selectNeta(event) {
     event.stopPropagation()
     const row = event.currentTarget
-    const isAlreadySelected = row.classList.contains("selected")
+    const idea = row.dataset.idea
 
-    this.element.querySelectorAll(".neta-row").forEach(r => r.classList.remove("selected"))
-
-    if (isAlreadySelected) {
-      this.selectedIdea = null
-      this.btnDecideTarget.disabled = true
+    if (row.classList.contains("selected")) {
+      row.classList.remove("selected")
+      this.selectedIdeas = this.selectedIdeas.filter(i => i !== idea)
     } else {
       row.classList.add("selected")
-      this.selectedIdea = row.dataset.idea
-      this.btnDecideTarget.disabled = false
+      this.selectedIdeas.push(idea)
     }
+
+    this.btnDecideTarget.disabled = this.selectedIdeas.length === 0
   }
 
   copyNeta(event) {
@@ -256,7 +255,8 @@ export default class extends Controller {
   }
 
   shareToX() {
-    const text = `今日の配信企画は「${this.selectedIdea}」🎙️\n#きかくさん #REALITY配信`
+    const ideas = this.selectedIdeas.map(i => `・${i}`).join("\n")
+    const text = `今日の配信企画🎙️\n${ideas}\n#きかくさん #REALITY配信`
     window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text), "_blank")
   }
 }
