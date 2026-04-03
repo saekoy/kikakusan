@@ -13,18 +13,18 @@ RSpec.describe 'Ideas', type: :system do
     end
 
     it 'ジャンル選択肢が4つ表示される' do
-      expect(page).to have_content('トーク・雑談')
-      expect(page).to have_content('ゲーム・チャレンジ')
-      expect(page).to have_content('歌・パフォーマンス')
-      expect(page).to have_content('リスナー参加型')
+      expect(page).to have_content('ざつだん')
+      expect(page).to have_content('ゲーム')
+      expect(page).to have_content('うた')
+      expect(page).to have_content('おまかせ')
     end
 
-    it '今日の一言の入力欄が表示される' do
+    it '今日のことの入力欄が表示される' do
       expect(page).to have_css('textarea')
     end
 
-    it '企画を考えてもらう ボタンが表示される' do
-      expect(page).to have_button('企画を考えてもらう')
+    it '企画を考える ボタンが表示される' do
+      expect(page).to have_button('企画を考える')
     end
   end
 end

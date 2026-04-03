@@ -257,6 +257,16 @@ export default class extends Controller {
   shareToX() {
     const ideas = this.selectedIdeas.map(i => `・${i}`).join("\n")
     const text = `今日の配信企画🎙️\n${ideas}\n#きかくさん #REALITY配信`
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+    this.selectedIdeas.forEach(title => {
+      fetch("/ideas/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
+        body: JSON.stringify({ title, category: this.selectedGenre }),
+      }).catch(() => {})
+    })
+
     window.open("https://twitter.com/intent/tweet?text=" + encodeURIComponent(text), "_blank")
   }
 }

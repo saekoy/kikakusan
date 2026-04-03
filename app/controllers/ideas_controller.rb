@@ -18,4 +18,10 @@ class IdeasController < ApplicationController
     idea.update!(like_count: idea.like_count + 1)
     render json: { like_count: idea.like_count }
   end
+
+  def share
+    idea = Idea.find_or_create_by!(title: params[:title], category: params[:category])
+    idea.update!(share_count: idea.share_count + 1)
+    render json: { share_count: idea.share_count }
+  end
 end

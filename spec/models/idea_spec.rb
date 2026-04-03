@@ -23,5 +23,10 @@ RSpec.describe Idea, type: :model do
       idea = Idea.new(title: '残業あるある', category: 'トーク・雑談')
       expect(idea.like_count).to eq(0)
     end
+
+    it 'share_count のデフォルトは 0 である' do
+      idea = Idea.new(title: '残業あるある', category: 'トーク・雑談')
+      expect(idea.share_count).to eq(0)
+    end
   end
 end

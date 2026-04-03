@@ -74,4 +74,30 @@ RSpec.describe 'Ideas', type: :request do
       expect(Idea.find_by(title: '残業あるある').like_count).to eq(1)
     end
   end
+
+  describe 'POST /ideas/share' do
+    let(:share_params) { { title: '残業あるある', category: 'トーク・雑談' } }
+
+    it 'HTTP ステータス 200 を返す' do
+      post '/ideas/share', params: share_params
+      expect(response).to have_http_status(200)
+    end
+
+    it 'シェアされた企画が DB に保存される' do
+      expect do
+        post '/ideas/share', params: share_params
+      end.to change(Idea, :count).by(1)
+    end
+
+    it '同じ企画を2回シェアしても DB レコードは1件' do
+      expect do
+        2.times { post '/ideas/share', params: share_params }
+      end.to change(Idea, :count).by(1)
+    end
+
+    it 'share_count が増える' do
+      post '/ideas/share', params: share_params
+      expect(Idea.find_by(title: '残業あるある').share_count).to eq(1)
+    end
+  end
 end
