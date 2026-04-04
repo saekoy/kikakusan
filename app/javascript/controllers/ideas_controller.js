@@ -141,8 +141,21 @@ export default class extends Controller {
       headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
       body: JSON.stringify({ category: this.selectedGenre, memo, liked_ideas: likedIdeas }),
     })
-      .then(res => res.json())
+      .then(res => {
+        if (res.status === 429) {
+          this.showScreen({ params: { screen: "home" } })
+          this.genreErrorTarget.textContent = "連打防止のため、1分ほどおまちください"
+          this.genreErrorTarget.classList.add("show")
+          setTimeout(() => {
+            this.genreErrorTarget.textContent = "ジャンルを選んでね"
+            this.genreErrorTarget.classList.remove("show")
+          }, 60000)
+          return null
+        }
+        return res.json()
+      })
       .then(data => {
+        if (!data) return
         this.renderIdeas(data.ideas)
         this.showScreen({ params: { screen: "result" } })
       })

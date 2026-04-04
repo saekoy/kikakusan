@@ -1,6 +1,7 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', require: false
+gem 'rack-attack'
 gem 'image_processing', '~> 1.2'
 gem 'importmap-rails'
 gem 'jbuilder'
