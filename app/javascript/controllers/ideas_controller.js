@@ -7,14 +7,10 @@ export default class extends Controller {
     "todayMemo",
     "btnDecide",
     "copyToast",
-    "byeOverlay",
-    "shareCheer",
-    "shareTopic",
-    "homeGreeting",
     "genreError",
     "resultBadge",
     "editMemo",
-    "profileMemo",
+    "profileTooltip",
   ]
 
   connect() {
@@ -29,6 +25,7 @@ export default class extends Controller {
     this.screenTargets.forEach(s => s.classList.remove("active"))
     const target = this.screenTargets.find(s => s.dataset.screenName === screen)
     if (target) target.classList.add("active")
+    if (this.hasProfileTooltipTarget) this.profileTooltipTarget.classList.remove("show")
   }
 
   // ---- チップ選択 ----
@@ -51,20 +48,6 @@ export default class extends Controller {
 
   // ---- プロフィール保存 ----
 
-  saveProfileFromSetup() {
-    const profile = {
-      gender: this.getSelectedChip("setup-gender"),
-      age: this.getSelectedChip("setup-age"),
-      family: this.getSelectedChip("setup-family"),
-      character: this.getSelectedChip("setup-character"),
-      listener: this.getSelectedChip("setup-listener"),
-      memo: this.profileMemoTarget.value,
-    }
-    localStorage.setItem("kikakusan_profile", JSON.stringify(profile))
-    this.updateHomeProfile(profile)
-    this.showScreen({ params: { screen: "profile-complete" } })
-  }
-
   saveProfileFromEdit() {
     const profile = {
       gender: this.getSelectedChip("edit-gender"),
@@ -75,7 +58,6 @@ export default class extends Controller {
       memo: this.editMemoTarget.value,
     }
     localStorage.setItem("kikakusan_profile", JSON.stringify(profile))
-    this.updateHomeProfile(profile)
     this.showScreen({ params: { screen: "home" } })
   }
 
@@ -90,37 +72,29 @@ export default class extends Controller {
     })
   }
 
-  greeting() {
-    const hour = new Date().getHours()
-    if (hour >= 5 && hour < 10) return "おはよう"   // 5〜10時
-    if (hour >= 10 && hour < 18) return "こんにちは" // 10〜18時
-    return "こんばんは"                              // 18〜5時
-  }
-
-  updateHomeProfile(profile) {
-    if (!profile) return
-    this.homeGreetingTarget.textContent = this.greeting()
-  }
-
-  loadProfile() {
+loadProfile() {
     const saved = localStorage.getItem("kikakusan_profile")
-    if (!saved) {
-      this.showScreen({ params: { screen: "welcome" } })
-      return
+    const profile = saved ? JSON.parse(saved) : null
+
+    if (profile) {
+      // 編集フォームに反映
+      if (this.hasEditMemoTarget) this.editMemoTarget.value = profile.memo || ""
+      if (profile.gender) this.selectChipByValue("edit-gender", profile.gender)
+      if (profile.age) this.selectChipByValue("edit-age", profile.age)
+      if (profile.family) this.selectChipByValue("edit-family", profile.family)
+      if (profile.character) this.selectChipByValue("edit-character", profile.character)
+      if (profile.listener) this.selectChipByValue("edit-listener", profile.listener)
     }
 
-    const profile = JSON.parse(saved)
-    this.updateHomeProfile(profile)
-
-    // 編集フォームに反映
-    if (this.hasEditMemoTarget) this.editMemoTarget.value = profile.memo || ""
-    if (profile.gender) this.selectChipByValue("edit-gender", profile.gender)
-    if (profile.age) this.selectChipByValue("edit-age", profile.age)
-    if (profile.family) this.selectChipByValue("edit-family", profile.family)
-    if (profile.character) this.selectChipByValue("edit-character", profile.character)
-    if (profile.listener) this.selectChipByValue("edit-listener", profile.listener)
-
     this.showScreen({ params: { screen: "home" } })
+    this.showProfileTooltipOnce()
+  }
+
+  showProfileTooltipOnce() {
+    if (localStorage.getItem("kikakusan_tooltip_shown")) return
+    if (!this.hasProfileTooltipTarget) return
+    localStorage.setItem("kikakusan_tooltip_shown", "1")
+    this.profileTooltipTarget.classList.add("show")
   }
 
   // ---- 企画生成 ----
@@ -252,20 +226,6 @@ export default class extends Controller {
   }
 
   // ---- シェア ----
-
-  showShareOverlay() {
-    if (!this.selectedIdea) return
-    const cheers = [
-      "今日も配信がんばれ〜！\nきかくさん、応援してるよ🌱",
-      "この企画、絶対盛り上がる！\n楽しい配信になりますように✨",
-      "いってらっしゃい！\nリスナーさんが待ってるよ🎙️",
-      "その企画、好き！\n今日も楽しんでね🎉",
-      "きかくさんも一緒に考えたよ！\nいい配信になりますように💪",
-    ]
-    this.shareCheerTarget.textContent = cheers[Math.floor(Math.random() * cheers.length)]
-    this.shareTopicTarget.textContent = this.selectedIdea
-    this.byeOverlayTarget.classList.add("show")
-  }
 
   shareToX() {
     const ideas = this.selectedIdeas.map(i => `・${i}`).join("\n")

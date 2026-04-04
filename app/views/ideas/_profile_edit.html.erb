@@ -63,15 +63,18 @@
   </div>
 
   <div class="bottom-nav">
-    <button class="nav-item"
-            data-action="click->ideas#showScreen"
-            data-ideas-screen-param="home">
-      <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
-      <span>ホーム</span>
-    </button>
-    <button class="nav-item active">
-      <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
-      <span>プロフィール</span>
-    </button>
+    <div class="bottom-nav-items">
+      <button class="nav-item"
+              data-action="click->ideas#showScreen"
+              data-ideas-screen-param="home">
+        <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
+        <span>ホーム</span>
+      </button>
+      <button class="nav-item active">
+        <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
+        <span>プロフィール</span>
+      </button>
+    </div>
+    <div class="app-footer">&copy; 2026 きかくさん</div>
   </div>
 </div>

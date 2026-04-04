@@ -21,71 +21,20 @@ body {
   display: flex;
 }
 
-/* ===== プログレスバー ===== */
-
-.progress-wrap {
-  display: flex;
-  gap: 6px;
-  align-items: center;
-  margin-bottom: 32px;
-}
-
-.progress-dot {
-  flex: 1;
-  height: 3px;
-  background: #E0E0E0;
-  border-radius: 2px;
-}
-
-.progress-dot.done {
-  background: #111;
-}
-
-.progress-dot.current {
-  background: #111;
-  opacity: 0.4;
-}
-
-/* ===== 質問テキスト ===== */
-
-.question-step {
-  font-size: 18px;
-  font-weight: 600;
-  color: #999;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.question-text {
-  font-size: 25px;
-  font-weight: 700;
-  color: #111;
-  line-height: 1.4;
-  margin-bottom: 8px;
-}
-
-.question-sub {
-  font-size: 19px;
-  color: #999;
-  margin-bottom: 28px;
-  line-height: 1.5;
-}
-
 /* ===== チップ ===== */
 
 .chip-group {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 12px;
+  gap: 7px;
+  margin-bottom: 16px;
 }
 
 .chip {
-  padding: 13px 18px;
+  padding: 8px 11px;
   border: 1.5px solid #DEDEDE;
   border-radius: 24px;
-  font-size: 20px;
+  font-size: 16px;
   color: #444;
   background: white;
   cursor: pointer;
@@ -103,54 +52,10 @@ body {
   transform: scale(0.95);
 }
 
-/* ===== テキスト入力 ===== */
-
-.big-input {
-  width: 100%;
-  padding: 14px 16px;
-  border: 1.5px solid #DEDEDE;
-  border-radius: 16px;
-  font-size: 18px;
-  color: #111;
-  background: white;
-  margin-bottom: 12px;
-  font-family: inherit;
-}
-
-.big-input:focus {
-  outline: none;
-  border-color: #111;
-}
-
 /* ===== ボタン ===== */
 
 .spacer {
   flex: 1;
-}
-
-.btn-next {
-  width: 100%;
-  padding: 17px;
-  background: #111;
-  color: white;
-  border: none;
-  border-radius: 18px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  font-family: inherit;
-}
-
-.btn-back {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #999;
-  cursor: pointer;
-  text-align: center;
-  margin-top: 12px;
-  width: 100%;
-  font-family: inherit;
 }
 
 .genre-error {
@@ -178,6 +83,10 @@ body {
   font-family: inherit;
 }
 
+.btn-primary:active {
+  transform: scale(0.97);
+}
+
 .btn-secondary {
   width: 100%;
   padding: 14px;
@@ -190,26 +99,6 @@ body {
   cursor: pointer;
   margin-top: 8px;
   font-family: inherit;
-}
-
-.btn-welcome {
-  width: 220px;
-  padding: 17px;
-  background: #111;
-  color: white;
-  border: none;
-  border-radius: 18px;
-  font-size: 21px;
-  font-weight: 700;
-  cursor: pointer;
-  letter-spacing: 1px;
-  font-family: inherit;
-}
-
-.btn-next:active,
-.btn-primary:active,
-.btn-welcome:active {
-  transform: scale(0.97);
 }
 
 /* ===== コンテンツエリア ===== */
@@ -225,7 +114,7 @@ body {
 /* ===== ホーム ===== */
 
 .home-header {
-  padding: 40px 24px 20px;
+  padding: 25px 24px 12px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -238,20 +127,20 @@ body {
   margin: 0 24px;
 }
 
-.home-greeting {
-  font-size: 18px;
+.home-catch {
+  font-size: 14px;
   color: #999;
-  margin-bottom: 2px;
+  margin-bottom: 4px;
 }
 
 .home-title {
-  font-size: 25px;
+  font-size: 22px;
   font-weight: 700;
   color: #111;
 }
 
 .section-label {
-  font-size: 22px;
+  font-size: 19px;
   font-weight: 700;
   color: #AAA;
   letter-spacing: 1px;
@@ -265,11 +154,11 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 8px;
-  margin-bottom: 19px;
+  margin-bottom: 11px;
 }
 
 .genre-card {
-  padding: 14px 16px;
+  padding: 9px 14px;
   border: 1.5px solid #DEDEDE;
   border-radius: 16px;
   cursor: pointer;
@@ -283,13 +172,13 @@ body {
 }
 
 .genre-card .g-emoji {
-  font-size: 22px;
+  font-size: 20px;
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: 2px;
 }
 
 .genre-card .g-name {
-  font-size: 21px;
+  font-size: 17px;
   font-weight: 600;
   color: #333;
 }
@@ -306,15 +195,15 @@ body {
 
 .home-textarea {
   width: 100%;
-  padding: 13px 15px;
+  padding: 11px 16px;
   border: 1.5px solid #DEDEDE;
   border-radius: 14px;
-  font-size: 18px;
+  font-size: 15px;
   color: #111;
   background: white;
-  height: 130px;
+  height: 70px;
   resize: none;
-  line-height: 1.7;
+  line-height: 1.5;
   margin-bottom: 19px;
   font-family: inherit;
 }
@@ -323,7 +212,6 @@ body {
   outline: none;
   border-color: #111;
 }
-
 
 /* ===== ローディング ===== */
 
@@ -596,104 +484,6 @@ body {
   transform: scale(0.97);
 }
 
-/* ===== シェアオーバーレイ ===== */
-
-.bye-overlay {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: #FAFAF8;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  z-index: 100;
-  padding: 28px;
-  animation: fadeIn 0.25s ease;
-}
-
-.bye-overlay.show {
-  display: flex;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.share-cheer {
-  font-size: 18px;
-  font-weight: 700;
-  color: #555;
-  margin-bottom: 20px;
-  text-align: center;
-  line-height: 1.6;
-  white-space: pre-line;
-}
-
-.share-card {
-  width: 100%;
-  max-width: 320px;
-  background: white;
-  border-radius: 20px;
-  border: 2px solid #EBEBEB;
-  padding: 24px 20px 20px;
-  text-align: center;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
-}
-
-.share-card-label {
-  font-size: 18px;
-  font-weight: 700;
-  color: #BBB;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-}
-
-.share-card-topic {
-  font-size: 20px;
-  font-weight: 800;
-  color: #111;
-  line-height: 1.4;
-  margin-bottom: 14px;
-}
-
-.share-card-tag {
-  font-size: 18px;
-  color: #AAA;
-}
-
-.btn-x-share {
-  width: 100%;
-  max-width: 320px;
-  padding: 15px;
-  background: #111;
-  color: white;
-  border: none;
-  border-radius: 16px;
-  font-size: 18px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-bottom: 10px;
-  letter-spacing: 0.5px;
-  font-family: inherit;
-}
-
-.btn-skip-share {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #AAA;
-  cursor: pointer;
-  padding: 6px;
-  font-family: inherit;
-}
 
 /* ===== ボトムナビ ===== */
 
@@ -701,7 +491,8 @@ body {
   background: white;
   border-top: 1px solid #F0F0F0;
   display: flex;
-  padding: 4px 0 8px;
+  flex-wrap: wrap;
+  padding: 0;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -709,24 +500,30 @@ body {
   z-index: 100;
 }
 
+.bottom-nav-items {
+  display: flex;
+  width: 100%;
+}
+
 .nav-item {
   flex: 1;
   text-align: center;
-  font-size: 13px;
+  font-size: 12px;
   color: #AAA;
   cursor: pointer;
   background: none;
   border: none;
   font-family: inherit;
-  padding: 4px 0;
+  padding: 3px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 3px;
+  gap: 0;
 }
 
 .nav-item.active {
   color: #111;
+  background: #F0EDE8;
 }
 
 .nav-item.active span {
@@ -739,12 +536,53 @@ body {
   object-fit: contain;
 }
 
-.nav-item.active .nav-icon-img {
-  background: #F0EDE8;
-  border-radius: 12px;
-  padding: 4px;
-  width: 36px;
-  height: 36px;
+/* ===== ナビツールチップ ===== */
+
+.nav-item--profile {
+  position: relative;
+}
+
+.nav-tooltip {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 4px;
+  background: #333;
+  color: white;
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 8px;
+  white-space: normal;
+  width: 160px;
+  line-height: 1.5;
+  text-align: left;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  z-index: 200;
+}
+
+.nav-tooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 18px;
+  border: 5px solid transparent;
+  border-top-color: #333;
+}
+
+.nav-tooltip.show {
+  opacity: 1;
+}
+
+/* ===== フッター ===== */
+
+.app-footer {
+  width: 100%;
+  text-align: center;
+  font-size: 11px;
+  color: #fff;
+  padding: 2px 0;
+  background: #959595;
 }
 
 /* ===== プロフィール編集ヘッダー ===== */
@@ -753,314 +591,35 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 40px 24px 20px;
+  padding: 25px 24px 12px;
   border-bottom: 1px solid #F0F0F0;
   flex-shrink: 0;
 }
 
 .edit-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: #111;
 }
 
-.back-btn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  color: #999;
-  cursor: pointer;
-  padding: 4px 0;
-  font-family: inherit;
-}
-
 .form-group-label {
-  font-size: 20px;
+  font-size: 17px;
   font-weight: 700;
   color: #AAA;
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 11px;
-  margin-top: 18px;
-}
-
-/* ===== 設定完了 ===== */
-
-.complete-wrap {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 28px;
-  text-align: center;
-}
-
-.complete-emoji {
-  font-size: 64px;
-  margin-bottom: 20px;
-  animation: pop 0.4s ease;
-}
-
-@keyframes pop {
-  0% { transform: scale(0.5); }
-  70% { transform: scale(1.15); }
-  100% { transform: scale(1); }
+  margin-bottom: 7px;
 }
 
 .notice {
-  font-size: 14px;
-  color: #CCC;
+  font-size: 13px;
+  color: #999;
   text-align: center;
-  margin-top: 8px;
-  line-height: 1.7;
+  margin-top: 5px;
+  line-height: 1.4;
 }
 
-/* ===== ミニマスコット ===== */
-
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-.mini-mascot {
-  position: relative;
-  width: 52px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  animation: float 3.5s ease-in-out infinite;
-  flex-shrink: 0;
-}
-
-.mm-bun {
-  width: 10px;
-  height: 10px;
-  background: #3A2A1E;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  z-index: 4;
-}
-
-.mm-bun-l { left: 6px; }
-.mm-bun-r { right: 6px; }
-
-.mm-head {
-  width: 40px;
-  height: 40px;
-  background: #FDDBB4;
-  border-radius: 50%;
-  border: 2px solid #F0C89A;
-  position: relative;
-  overflow: hidden;
-  z-index: 2;
-}
-
-.mm-hair {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 16px;
-  background: #3A2A1E;
-  border-radius: 50% 50% 0 0 / 90% 90% 0 0;
-}
-
-.mm-eyes {
-  position: absolute;
-  top: 18px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-}
-
-.mm-eye {
-  width: 5px;
-  height: 6px;
-  background: #2A1A10;
-  border-radius: 50%;
-}
-
-.mm-mouth {
-  position: absolute;
-  top: 26px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 9px;
-  height: 4px;
-  border: 1.5px solid #C4745A;
-  border-top: none;
-  border-radius: 0 0 8px 8px;
-}
-
-.mm-body {
-  width: 30px;
-  height: 18px;
-  background: #BFDBFE;
-  border-radius: 40% 40% 46% 46% / 36% 36% 64% 64%;
-  margin-top: -4px;
-  border: 1.5px solid #93C5FD;
-  z-index: 1;
-}
-
-/* ===== きかくさん（大） ===== */
-
-.mascot-wrap {
-  position: relative;
-  width: 180px;
-  height: 220px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-  animation: float 3.5s ease-in-out infinite;
-}
-
-.thought-bubble {
-  position: absolute;
-  top: 4px;
-  right: 2px;
-  background: white;
-  border: 2px solid #E8E8E8;
-  border-radius: 16px;
-  padding: 6px 10px;
-  font-size: 18px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-  z-index: 10;
-}
-
-.kk-char {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.kk-bun {
-  width: 26px;
-  height: 26px;
-  background: #3A2A1E;
-  border-radius: 50%;
-  position: absolute;
-  top: 6px;
-  z-index: 4;
-  border: 2px solid #2A1A10;
-}
-
-.kk-bun-l { left: 14px; }
-.kk-bun-r { right: 14px; }
-
-.kk-head {
-  width: 114px;
-  height: 114px;
-  background: #FDDBB4;
-  border-radius: 50%;
-  position: relative;
-  z-index: 2;
-  border: 3px solid #F0C89A;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.kk-hair {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 46px;
-  background: #3A2A1E;
-  border-radius: 50% 50% 0 0 / 90% 90% 0 0;
-  z-index: 3;
-}
-
-.kk-hair::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 20px;
-  right: 20px;
-  height: 10px;
-  background: #FDDBB4;
-  border-radius: 0 0 60% 60%;
-}
-
-.kk-eyes {
-  position: absolute;
-  top: 52px;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  z-index: 4;
-}
-
-.kk-eye {
-  width: 14px;
-  height: 17px;
-  background: #2A1A10;
-  border-radius: 50%;
-  position: relative;
-}
-
-.kk-eye::after {
-  content: '';
-  width: 5px;
-  height: 5px;
-  background: white;
-  border-radius: 50%;
-  position: absolute;
-  top: 2px;
-  right: 1px;
-}
-
-.kk-mouth {
-  position: absolute;
-  top: 76px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 26px;
-  height: 13px;
-  border: 2.5px solid #C4745A;
-  border-top: none;
-  border-radius: 0 0 20px 20px;
-  z-index: 4;
-}
-
-.kk-cheek {
-  width: 22px;
-  height: 13px;
-  background: #F9A8D4;
-  border-radius: 50%;
-  opacity: 0.6;
-  position: absolute;
-  top: 68px;
-  z-index: 4;
-}
-
-.kk-cheek-l { left: 12px; }
-.kk-cheek-r { right: 12px; }
-
-.kk-body {
-  width: 84px;
-  height: 56px;
-  background: #BFDBFE;
-  border-radius: 42% 42% 46% 46% / 36% 36% 64% 64%;
-  margin-top: -8px;
-  z-index: 1;
-  border: 2.5px solid #93C5FD;
-  flex-shrink: 0;
-}
-
-.kk-shadow {
-  width: 76px;
-  height: 10px;
-  background: rgba(0, 0, 0, 0.07);
-  border-radius: 50%;
-  margin-top: 8px;
-}
+/* ===== 画像マスコット ===== */
 
 .mascot-img {
   width: 180px;
@@ -1071,4 +630,9 @@ body {
   width: 65px;
   flex-shrink: 0;
   animation: float 3.5s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
 }
