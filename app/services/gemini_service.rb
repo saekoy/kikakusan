@@ -1,7 +1,7 @@
 require 'net/http'
 
 class GeminiService
-  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent'.freeze
+  API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent'.freeze
 
   def initialize(category:, memo:, profile: {}, liked_ideas: [])
     @category    = category
@@ -53,10 +53,7 @@ class GeminiService
     body = {
       contents: [{
         parts: [{ text: prompt }]
-      }],
-      generationConfig: {
-        maxOutputTokens: 300
-      }
+      }]
     }.to_json
 
     http         = Net::HTTP.new(uri.host, uri.port)
