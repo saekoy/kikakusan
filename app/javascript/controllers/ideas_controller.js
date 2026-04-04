@@ -26,6 +26,7 @@ export default class extends Controller {
     const target = this.screenTargets.find(s => s.dataset.screenName === screen)
     if (target) target.classList.add("active")
     if (this.hasProfileTooltipTarget) this.profileTooltipTarget.classList.remove("show")
+    if (screen === "home") this.showProfileTooltipIfNoProfile()
   }
 
   // ---- チップ選択 ----
@@ -87,13 +88,11 @@ loadProfile() {
     }
 
     this.showScreen({ params: { screen: "home" } })
-    this.showProfileTooltipOnce()
   }
 
-  showProfileTooltipOnce() {
-    if (localStorage.getItem("kikakusan_tooltip_shown")) return
+  showProfileTooltipIfNoProfile() {
+    if (localStorage.getItem("kikakusan_profile")) return
     if (!this.hasProfileTooltipTarget) return
-    localStorage.setItem("kikakusan_tooltip_shown", "1")
     this.profileTooltipTarget.classList.add("show")
   }
 
