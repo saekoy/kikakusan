@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html>
+<html lang="ja">
   <head>
-    <title><%= content_for(:title) || "Kikakusan" %></title>
+    <title><%= content_for(:title) || "きかくさん | ライバーのための配信企画ジェネレータ" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="description" content="ライバー向けの配信企画ジェネレータ。ジャンルを選ぶだけでAIがネタを提案。無料・登録不要。">
+    <meta name="keywords" content="配信企画,ライバー,REALITY,配信ネタ,きかくさん,Vライバー,雑談,ゲーム配信,うた配信">
+    <meta name="robots" content="index, follow">
+
+    <%# OGP %>
+    <meta property="og:title" content="きかくさん | ライバーのための配信企画ジェネレータ">
+    <meta property="og:description" content="ライバー向けの配信企画ジェネレータ。ジャンルを選ぶだけでAIがネタを提案。無料・登録不要。">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="/ogp.png">
+    <meta property="og:site_name" content="きかくさん">
+    <meta property="og:locale" content="ja_JP">
+
+    <%# Twitter Card %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="きかくさん | ライバーのための配信企画ジェネレータ">
+    <meta name="twitter:description" content="ライバー向けの配信企画ジェネレータ。ジャンルを選ぶだけでAIがネタを提案。無料・登録不要。">
+    <meta name="twitter:image" content="/ogp.png">
+
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="application-name" content="Kikakusan">
+    <meta name="application-name" content="きかくさん">
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
