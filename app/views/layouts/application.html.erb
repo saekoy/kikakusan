@@ -21,6 +21,7 @@
     <meta name="twitter:description" content="ライバー向けの配信企画ジェネレータ。ジャンルを選ぶだけでAIがネタを提案。無料・登録不要。">
     <meta name="twitter:image" content="/ogp.png">
 
+    <meta name="recaptcha-site-key" content="<%= ENV['RECAPTCHA_SITE_KEY'] %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="application-name" content="きかくさん">
     <meta name="mobile-web-app-capable" content="yes">
@@ -42,6 +43,9 @@
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
+    <% if ENV['RECAPTCHA_SITE_KEY'].present? %>
+      <script src="https://www.google.com/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
+    <% end %>
   </head>
 
   <body>

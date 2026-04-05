@@ -138,38 +138,63 @@ loadProfile() {
     }
     this.genreErrorTarget.classList.remove("show")
     this.showScreen({ params: { screen: "loading" } })
-    const memo = this.todayMemoTarget.value
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-    const likedIdeas = JSON.parse(localStorage.getItem("kikakusan_liked_ideas") || "[]")
 
-    fetch("/ideas", {
-      method: "POST",
-      headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-      body: JSON.stringify({ category: this.selectedGenre, memo, liked_ideas: likedIdeas }),
-    })
-      .then(res => {
-        if (res.status === 429) {
+    const siteKeyMeta = document.querySelector('meta[name="recaptcha-site-key"]')
+    const siteKey = siteKeyMeta?.getAttribute("content")
+
+    const doFetch = (recaptchaToken = null) => {
+      const memo = this.todayMemoTarget.value
+      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
+      const likedIdeas = JSON.parse(localStorage.getItem("kikakusan_liked_ideas") || "[]")
+
+      fetch("/ideas", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
+        body: JSON.stringify({ category: this.selectedGenre, memo, liked_ideas: likedIdeas, recaptcha_token: recaptchaToken }),
+      })
+        .then(res => {
+          if (res.status === 429) {
+            this.showScreen({ params: { screen: "home" } })
+            this.genreErrorTarget.textContent = "連打防止のため、1分ほどおまちください"
+            this.genreErrorTarget.classList.add("show")
+            setTimeout(() => {
+              this.genreErrorTarget.textContent = "ジャンルを選んでね"
+              this.genreErrorTarget.classList.remove("show")
+            }, 60000)
+            return null
+          }
+          if (res.status === 403) {
+            this.showScreen({ params: { screen: "home" } })
+            this.genreErrorTarget.textContent = "エラーが発生しました。もう一度試してね。"
+            this.genreErrorTarget.classList.add("show")
+            setTimeout(() => {
+              this.genreErrorTarget.textContent = "ジャンルを選んでね"
+              this.genreErrorTarget.classList.remove("show")
+            }, 4000)
+            return null
+          }
+          return res.json()
+        })
+        .then(data => {
+          if (!data) return
+          this.renderIdeas(data.ideas)
+          this.showScreen({ params: { screen: "result" } })
+        })
+        .catch(() => {
+          alert("エラーが発生しました。もう一度試してね。")
           this.showScreen({ params: { screen: "home" } })
-          this.genreErrorTarget.textContent = "連打防止のため、1分ほどおまちください"
-          this.genreErrorTarget.classList.add("show")
-          setTimeout(() => {
-            this.genreErrorTarget.textContent = "ジャンルを選んでね"
-            this.genreErrorTarget.classList.remove("show")
-          }, 60000)
-          return null
-        }
-        return res.json()
+        })
+    }
+
+    if (siteKey && typeof grecaptcha !== "undefined") {
+      grecaptcha.ready(() => {
+        grecaptcha.execute(siteKey, { action: "generate" }).then(token => doFetch(token))
       })
-      .then(data => {
-        if (!data) return
-        this.renderIdeas(data.ideas)
-        this.showScreen({ params: { screen: "result" } })
-      })
-      .catch(() => {
-        alert("エラーが発生しました。もう一度試してね。")
-        this.showScreen({ params: { screen: "home" } })
-      })
+    } else {
+      doFetch()
+    }
   }
+
 
   renderIdeas(ideas) {
     this.resultBadgeTarget.textContent = this.selectedGenre
