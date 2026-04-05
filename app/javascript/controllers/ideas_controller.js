@@ -259,7 +259,7 @@ loadProfile() {
       this.copyToastTarget.classList.add("show")
       setTimeout(() => {
         this.copyToastTarget.classList.remove("show")
-        btn.textContent = "📋"
+        btn.textContent = "❐"
         btn.classList.remove("copied")
       }, 1500)
     })

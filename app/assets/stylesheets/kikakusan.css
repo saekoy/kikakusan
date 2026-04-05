@@ -98,15 +98,14 @@ body {
 
 .btn-secondary {
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   background: white;
   color: #111;
   border: 1.5px solid #DEDEDE;
   border-radius: 18px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 8px;
   font-family: inherit;
 }
 
@@ -250,7 +249,7 @@ body {
 .loading-dots {
   display: flex;
   gap: 8px;
-  margin-bottom: 25px;
+  margin-bottom: 20px;
 }
 
 .dot {
@@ -270,7 +269,7 @@ body {
 }
 
 .loading-text {
-  font-size: 19px;
+  font-size: 17px;
   color: #888;
   font-weight: 500;
 }
@@ -302,7 +301,7 @@ body {
 }
 
 .result-header {
-  padding: 40px 24px 20px;
+  padding: 25px 24px 12px;
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -334,7 +333,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 10px;
+  padding: 5px 10px;
   border-radius: 10px;
   border-bottom: 1px solid #F0F0F0;
   cursor: pointer;
@@ -369,7 +368,7 @@ body {
   border-radius: 50%;
   background: #F0F0F0;
   color: #888;
-  font-size: 18px;
+  font-size: 15px;
   font-weight: 700;
   display: flex;
   align-items: center;
@@ -379,7 +378,7 @@ body {
 
 .neta-text {
   flex: 1;
-  font-size: 18px;
+  font-size: 17px;
   color: #222;
   line-height: 1.45;
 }
@@ -391,7 +390,7 @@ body {
 }
 
 .result-footer {
-  padding: 20px 22px 90px;
+  padding: 15px 22px 90px;
   flex-shrink: 0;
 }
 
@@ -486,12 +485,12 @@ body {
 
 .btn-decide {
   width: 100%;
-  padding: 16px;
+  padding: 12px;
   background: #111;
   color: white;
   border: none;
   border-radius: 18px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   margin-bottom: 8px;
