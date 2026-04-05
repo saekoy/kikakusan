@@ -222,6 +222,21 @@ body {
   border-color: #111;
 }
 
+/* ===== 文字数カウンター ===== */
+
+.char-count {
+  font-size: 12px;
+  color: #AAA;
+  text-align: right;
+  margin-top: -14px;
+  margin-bottom: 14px;
+}
+
+.char-count--warn {
+  color: #E05555;
+  font-weight: 600;
+}
+
 /* ===== ローディング ===== */
 
 .loading-wrap {

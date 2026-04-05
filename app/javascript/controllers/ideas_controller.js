@@ -12,6 +12,8 @@ export default class extends Controller {
     "editMemo",
     "profileTooltip",
     "profileHint",
+    "memoCount",
+    "editMemoCount",
   ]
 
   connect() {
@@ -28,6 +30,24 @@ export default class extends Controller {
     if (target) target.classList.add("active")
     if (this.hasProfileTooltipTarget) this.profileTooltipTarget.classList.remove("show")
     if (screen === "home") this.showProfileTooltipIfNoProfile()
+  }
+
+  // ---- 文字数カウンター ----
+
+  updateMemoCount() {
+    this.updateCharCount(this.todayMemoTarget, this.memoCountTarget, 100)
+  }
+
+  updateEditMemoCount() {
+    this.updateCharCount(this.editMemoTarget, this.editMemoCountTarget, 200)
+  }
+
+  updateCharCount(textarea, counter, max) {
+    const remaining = max - textarea.value.length
+    const isEmpty = textarea.value.length === 0
+    counter.textContent = isEmpty ? "" : `残り${remaining}文字`
+    counter.style.display = isEmpty ? "none" : ""
+    counter.classList.toggle("char-count--warn", remaining <= 10)
   }
 
   // ---- チップ選択 ----

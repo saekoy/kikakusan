@@ -3,9 +3,11 @@ class IdeasController < ApplicationController
   end
 
   def create
+    memo = params[:memo].to_s.slice(0, 100)
+
     titles = GeminiService.new(
       category: params[:category],
-      memo: params[:memo],
+      memo: memo,
       profile: params[:profile] || {},
       liked_ideas: params[:liked_ideas] || []
     ).call

@@ -40,7 +40,10 @@
     <div class="section-label">きぶん</div>
     <textarea class="home-textarea"
               data-ideas-target="todayMemo"
+              data-action="input->ideas#updateMemoCount"
+              maxlength="100"
               placeholder="新作のゲームを買った、テンション高め、声が出にくい、静かな企画"></textarea>
+    <div class="char-count" data-ideas-target="memoCount" style="display:none;"></div>
 
     <div class="genre-error" data-ideas-target="genreError">ジャンルを選んでね</div>
 

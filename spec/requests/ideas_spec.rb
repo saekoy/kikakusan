@@ -11,7 +11,7 @@ RSpec.describe 'Ideas', type: :request do
   describe 'POST /ideas' do
     context '正常なパラメータを送信した場合' do
       let(:valid_params) do
-        { category: 'トーク・雑談', memo: '今日は残業でクタクタ' }
+        { category: '雑談', memo: '今日はテンション高め' }
       end
       let(:fake_titles) { Array.new(10) { |i| "企画タイトル#{i + 1}" } }
 
@@ -47,10 +47,24 @@ RSpec.describe 'Ideas', type: :request do
         end.not_to change(Idea, :count)
       end
     end
+
+    context 'メモが100文字を超えた場合' do
+      let(:long_memo) { 'あ' * 101 }
+      let(:fake_titles) { Array.new(10) { |i| "企画タイトル#{i + 1}" } }
+
+      it '100文字に切り捨てられてGeminiに渡される' do
+        truncated = long_memo.slice(0, 100)
+        expect_any_instance_of(GeminiService).to receive(:initialize).with(
+          hash_including(memo: truncated)
+        ).and_call_original
+        allow_any_instance_of(GeminiService).to receive(:call).and_return(fake_titles)
+        post '/ideas', params: { category: '雑談', memo: long_memo }
+      end
+    end
   end
 
   describe 'POST /ideas/like' do
-    let(:like_params) { { title: '残業あるある', category: 'トーク・雑談' } }
+    let(:like_params) { { title: '残業あるある', category: '雑談' } }
 
     it 'HTTP ステータス 200 を返す' do
       post '/ideas/like', params: like_params
@@ -76,7 +90,7 @@ RSpec.describe 'Ideas', type: :request do
   end
 
   describe 'POST /ideas/share' do
-    let(:share_params) { { title: '残業あるある', category: 'トーク・雑談' } }
+    let(:share_params) { { title: '残業あるある', category: '雑談' } }
 
     it 'HTTP ステータス 200 を返す' do
       post '/ideas/share', params: share_params
