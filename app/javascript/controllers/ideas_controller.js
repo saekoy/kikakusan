@@ -177,6 +177,12 @@ loadProfile() {
         })
         .then(data => {
           if (!data) return
+          if (!data.ideas || data.ideas.length === 0) {
+            this.showScreen({ params: { screen: "home" } })
+            this.genreErrorTarget.textContent = "企画の生成に失敗しました。もう一度試してね。"
+            this.genreErrorTarget.classList.add("show")
+            return
+          }
           this.renderIdeas(data.ideas)
           this.showScreen({ params: { screen: "result" } })
         })

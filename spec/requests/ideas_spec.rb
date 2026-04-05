@@ -48,6 +48,29 @@ RSpec.describe 'Ideas', type: :request do
       end
     end
 
+    context 'GeminiService が空配列を返した場合' do
+      before do
+        allow_any_instance_of(GeminiService).to receive(:call).and_return([])
+      end
+
+      it 'ideas が空配列で返る' do
+        post '/ideas', params: { category: '雑談', memo: '' }
+        json = response.parsed_body
+        expect(json['ideas']).to eq([])
+      end
+    end
+
+    context 'reCAPTCHA 検証に失敗した場合' do
+      before do
+        allow_any_instance_of(IdeasController).to receive(:recaptcha_valid?).and_return(false)
+      end
+
+      it 'HTTP ステータス 403 を返す' do
+        post '/ideas', params: { category: '雑談', memo: '' }
+        expect(response).to have_http_status(403)
+      end
+    end
+
     context 'メモが100文字を超えた場合' do
       let(:long_memo) { 'あ' * 101 }
       let(:fake_titles) { Array.new(10) { |i| "企画タイトル#{i + 1}" } }
