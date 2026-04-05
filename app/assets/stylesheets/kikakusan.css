@@ -81,12 +81,12 @@ body {
 
 .btn-primary {
   width: 100%;
-  padding: 17px;
+  padding: 13px;
   background: #111;
   color: white;
   border: none;
   border-radius: 18px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   cursor: pointer;
   font-family: inherit;
@@ -534,7 +534,7 @@ body {
 .nav-item {
   flex: 1;
   text-align: center;
-  font-size: 12px;
+  font-size: 11px;
   color: #AAA;
   cursor: pointer;
   background: none;
@@ -646,6 +646,34 @@ body {
   text-align: center;
   margin-top: 5px;
   line-height: 1.4;
+}
+
+/* ===== きかくさんとは ===== */
+
+.about-section {
+  margin-bottom: 24px;
+}
+
+.about-section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: #AAA;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.about-text {
+  font-size: 15px;
+  color: #444;
+  line-height: 1.7;
+}
+
+.about-contact-btn {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  margin-top: 10px;
 }
 
 /* ===== 画像マスコット ===== */

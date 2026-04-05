@@ -1,7 +1,7 @@
 <div class="screen" data-ideas-target="screen" data-screen-name="profile-edit">
   <div class="edit-header">
     <div>
-      <div class="home-catch" data-ideas-target="profileHint" style="display:none;">入力すると企画の質がアップするよ</div>
+      <div class="home-catch" data-ideas-target="profileHint" style="display:none;">入力で企画の質がアップ</div>
       <div class="edit-title">プロフィール編集</div>
     </div>
   </div>
@@ -86,6 +86,12 @@
       <button class="nav-item active">
         <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
         <span>プロフィール</span>
+      </button>
+      <button class="nav-item"
+              data-action="click->ideas#showScreen"
+              data-ideas-screen-param="about">
+        <%= image_tag "wa-i-kuma.png", class: "nav-icon-img", alt: "きかくさんとは" %>
+        <span>きかくさんとは</span>
       </button>
     </div>
     <div class="app-footer">&copy; 2026 きかくさん</div>
