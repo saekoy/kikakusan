@@ -46,6 +46,15 @@
     <% if ENV['RECAPTCHA_SITE_KEY'].present? %>
       <script src="https://www.google.com/recaptcha/api.js?render=<%= ENV['RECAPTCHA_SITE_KEY'] %>"></script>
     <% end %>
+    <% if ENV['GA_MEASUREMENT_ID'].present? %>
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV['GA_MEASUREMENT_ID'] %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<%= ENV['GA_MEASUREMENT_ID'] %>');
+      </script>
+    <% end %>
   </head>
 
   <body>
