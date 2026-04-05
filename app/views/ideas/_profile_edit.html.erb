@@ -1,6 +1,9 @@
 <div class="screen" data-ideas-target="screen" data-screen-name="profile-edit">
   <div class="edit-header">
-    <div class="edit-title">プロフィール編集</div>
+    <div>
+      <div class="home-catch" data-ideas-target="profileHint" style="display:none;">入力すると企画の質がアップするよ</div>
+      <div class="edit-title">プロフィール編集</div>
+    </div>
   </div>
 
   <div class="content" style="padding-top:12px;">
@@ -13,14 +16,10 @@
 
     <div class="form-group-label">年齢</div>
     <div class="chip-group" data-group="edit-age">
-      <div class="chip" data-action="click->ideas#selectChip">10代前半</div>
-      <div class="chip" data-action="click->ideas#selectChip">10代後半</div>
-      <div class="chip" data-action="click->ideas#selectChip">20代前半</div>
-      <div class="chip" data-action="click->ideas#selectChip">20代後半</div>
-      <div class="chip" data-action="click->ideas#selectChip">30代前半</div>
-      <div class="chip" data-action="click->ideas#selectChip">30代後半</div>
-      <div class="chip" data-action="click->ideas#selectChip">40代前半</div>
-      <div class="chip" data-action="click->ideas#selectChip">40代後半</div>
+      <div class="chip" data-action="click->ideas#selectChip">10代</div>
+      <div class="chip" data-action="click->ideas#selectChip">20代</div>
+      <div class="chip" data-action="click->ideas#selectChip">30代</div>
+      <div class="chip" data-action="click->ideas#selectChip">40代</div>
       <div class="chip" data-action="click->ideas#selectChip">50代以上</div>
     </div>
 
@@ -34,7 +33,7 @@
 
     <div class="form-group-label">配信キャラクター</div>
     <div class="chip-group" data-group="edit-character">
-      <div class="chip" data-action="click->ideas#selectChip">元気・明るい</div>
+      <div class="chip" data-action="click->ideas#selectChip">元気</div>
       <div class="chip" data-action="click->ideas#selectChip">いやし</div>
       <div class="chip" data-action="click->ideas#selectChip">クール</div>
       <div class="chip" data-action="click->ideas#selectChip">イケカテ</div>
@@ -43,17 +42,26 @@
 
     <div class="form-group-label">リスナー層</div>
     <div class="chip-group" data-group="edit-listener">
-      <div class="chip" data-action="click->ideas#selectChip">学生</div>
-      <div class="chip" data-action="click->ideas#selectChip">社会人</div>
+      <div class="chip" data-action="click->ideas#selectChip">10代が多い</div>
+      <div class="chip" data-action="click->ideas#selectChip">20代が多い</div>
       <div class="chip" data-action="click->ideas#selectChip">同世代が多い</div>
       <div class="chip" data-action="click->ideas#selectChip">幅広い年齢層</div>
+      <div class="chip" data-action="click->ideas#selectChip">まだわからない</div>
+    </div>
+
+    <div class="form-group-label">リスナーの属性</div>
+    <div class="chip-group" data-group="edit-listener-type">
+      <div class="chip" data-action="click->ideas#selectChip">学生が多い</div>
+      <div class="chip" data-action="click->ideas#selectChip">社会人が多い</div>
+      <div class="chip" data-action="click->ideas#selectChip">ゲーマーが多い</div>
+      <div class="chip" data-action="click->ideas#selectChip">アニメ好きが多い</div>
       <div class="chip" data-action="click->ideas#selectChip">まだわからない</div>
     </div>
 
     <div class="form-group-label">自由記入（任意）</div>
     <textarea class="home-textarea"
               data-ideas-target="editMemo"
-              placeholder="例：大学◯年生、社会人◯年目、猫を飼ってる、旅行が好き、歌配信をがんばりたい"></textarea>
+              placeholder="大学◯年生、社会人◯年目、猫を飼ってる、旅行が好き、歌配信をがんばりたい"></textarea>
 
     <div class="spacer"></div>
     <button class="btn-primary"

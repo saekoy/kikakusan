@@ -11,6 +11,7 @@ export default class extends Controller {
     "resultBadge",
     "editMemo",
     "profileTooltip",
+    "profileHint",
   ]
 
   connect() {
@@ -34,17 +35,23 @@ export default class extends Controller {
   selectChip(event) {
     const chip = event.currentTarget
     const group = chip.closest("[data-group]")
+    const wasSelected = chip.classList.contains("selected")
     group.querySelectorAll(".chip").forEach(c => c.classList.remove("selected"))
-    chip.classList.add("selected")
+    if (!wasSelected) chip.classList.add("selected")
   }
 
   // ---- ジャンル選択 ----
 
   selectGenre(event) {
-    this.element.querySelectorAll(".genre-card").forEach(c => c.classList.remove("selected"))
     const card = event.currentTarget
-    card.classList.add("selected")
-    this.selectedGenre = card.dataset.genre
+    const wasSelected = card.classList.contains("selected")
+    this.element.querySelectorAll(".genre-card").forEach(c => c.classList.remove("selected"))
+    if (wasSelected) {
+      this.selectedGenre = null
+    } else {
+      card.classList.add("selected")
+      this.selectedGenre = card.dataset.genre
+    }
   }
 
   // ---- プロフィール保存 ----
@@ -56,6 +63,7 @@ export default class extends Controller {
       family: this.getSelectedChip("edit-family"),
       character: this.getSelectedChip("edit-character"),
       listener: this.getSelectedChip("edit-listener"),
+      listenerType: this.getSelectedChip("edit-listener-type"),
       memo: this.editMemoTarget.value,
     }
     localStorage.setItem("kikakusan_profile", JSON.stringify(profile))
@@ -85,15 +93,20 @@ loadProfile() {
       if (profile.family) this.selectChipByValue("edit-family", profile.family)
       if (profile.character) this.selectChipByValue("edit-character", profile.character)
       if (profile.listener) this.selectChipByValue("edit-listener", profile.listener)
+      if (profile.listenerType) this.selectChipByValue("edit-listener-type", profile.listenerType)
     }
 
     this.showScreen({ params: { screen: "home" } })
   }
 
   showProfileTooltipIfNoProfile() {
-    if (localStorage.getItem("kikakusan_profile")) return
-    if (!this.hasProfileTooltipTarget) return
-    this.profileTooltipTarget.classList.add("show")
+    const hasProfile = !!localStorage.getItem("kikakusan_profile")
+    if (!hasProfile && this.hasProfileTooltipTarget) {
+      this.profileTooltipTarget.classList.add("show")
+    }
+    this.profileHintTargets.forEach(el => {
+      el.style.display = hasProfile ? "none" : ""
+    })
   }
 
   // ---- 企画生成 ----

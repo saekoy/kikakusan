@@ -555,7 +555,7 @@ body {
 
 .nav-tooltip {
   position: absolute;
-  bottom: calc(100% + 10px);
+  bottom: calc(100% + 3px);
   left: 50%;
   transform: translateX(-50%);
   background: #333;
@@ -564,7 +564,7 @@ body {
   padding: 6px 10px;
   border-radius: 8px;
   white-space: normal;
-  width: 210px;
+  width: calc(100% - 25px);
   line-height: 1.5;
   text-align: center;
   opacity: 0;
