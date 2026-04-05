@@ -25,27 +25,5 @@
 
   <div class="copy-toast" data-ideas-target="copyToast">コピーしました！</div>
 
-  <div class="bottom-nav">
-    <div class="bottom-nav-items">
-      <button class="nav-item active"
-              data-action="click->ideas#showScreen"
-              data-ideas-screen-param="home">
-        <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
-        <span>ホーム</span>
-      </button>
-      <button class="nav-item"
-              data-action="click->ideas#showScreen"
-              data-ideas-screen-param="profile-edit">
-        <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
-        <span>プロフィール</span>
-      </button>
-      <button class="nav-item"
-              data-action="click->ideas#showScreen"
-              data-ideas-screen-param="about">
-        <%= image_tag "wa-i-kuma.png", class: "nav-icon-img", alt: "きかくさんとは" %>
-        <span>きかくさんとは</span>
-      </button>
-    </div>
-    <div class="app-footer">&copy; 2026 きかくさん</div>
-  </div>
+  <%= render "bottom_nav", active: "result" %>
 </div>

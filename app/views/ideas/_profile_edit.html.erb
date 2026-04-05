@@ -1,9 +1,6 @@
 <div class="screen" data-ideas-target="screen" data-screen-name="profile-edit">
   <div class="edit-header">
-    <div>
-      <div class="home-catch" data-ideas-target="profileHint" style="display:none;">入力で企画の質がアップ</div>
-      <div class="edit-title">プロフィール編集</div>
-    </div>
+    <div class="edit-title">プロフィール</div>
   </div>
 
   <div class="content" style="padding-top:12px;">
@@ -75,25 +72,5 @@
     <p class="notice">プロフィールはこの端末にのみ保存されます</p>
   </div>
 
-  <div class="bottom-nav">
-    <div class="bottom-nav-items">
-      <button class="nav-item"
-              data-action="click->ideas#showScreen"
-              data-ideas-screen-param="home">
-        <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
-        <span>ホーム</span>
-      </button>
-      <button class="nav-item active">
-        <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
-        <span>プロフィール</span>
-      </button>
-      <button class="nav-item"
-              data-action="click->ideas#showScreen"
-              data-ideas-screen-param="about">
-        <%= image_tag "wa-i-kuma.png", class: "nav-icon-img", alt: "きかくさんとは" %>
-        <span>きかくさんとは</span>
-      </button>
-    </div>
-    <div class="app-footer">&copy; 2026 きかくさん</div>
-  </div>
+  <%= render "bottom_nav", active: "profile-edit" %>
 </div>

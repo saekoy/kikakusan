@@ -11,7 +11,6 @@ export default class extends Controller {
     "resultBadge",
     "editMemo",
     "profileTooltip",
-    "profileHint",
     "memoCount",
     "editMemoCount",
   ]
@@ -120,13 +119,9 @@ loadProfile() {
   }
 
   showProfileTooltipIfNoProfile() {
-    const hasProfile = !!localStorage.getItem("kikakusan_profile")
-    if (!hasProfile && this.hasProfileTooltipTarget) {
-      this.profileTooltipTarget.classList.add("show")
-    }
-    this.profileHintTargets.forEach(el => {
-      el.style.display = hasProfile ? "none" : ""
-    })
+    if (localStorage.getItem("kikakusan_profile")) return
+    if (!this.hasProfileTooltipTarget) return
+    this.profileTooltipTarget.classList.add("show")
   }
 
   // ---- 企画生成 ----

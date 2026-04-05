@@ -1,0 +1,33 @@
+<div class="bottom-nav">
+  <div class="bottom-nav-items">
+    <button class="nav-item <%= 'active' if %w[home result].include?(active) %>"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="home">
+      <%= image_tag "illust-house.png", class: "nav-icon-img", alt: "ホーム" %>
+      <span>ホーム</span>
+    </button>
+    <% if active == 'home' %>
+      <button class="nav-item nav-item--profile"
+              data-action="click->ideas#showScreen"
+              data-ideas-screen-param="profile-edit">
+        <span class="nav-tooltip" data-ideas-target="profileTooltip">入力で企画の質がアップ</span>
+        <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
+        <span>プロフィール</span>
+      </button>
+    <% else %>
+      <button class="nav-item <%= 'active' if active == 'profile-edit' %>"
+              data-action="click->ideas#showScreen"
+              data-ideas-screen-param="profile-edit">
+        <%= image_tag "kumatasokao.png", class: "nav-icon-img", alt: "プロフィール" %>
+        <span>プロフィール</span>
+      </button>
+    <% end %>
+    <button class="nav-item <%= 'active' if active == 'about' %>"
+            data-action="click->ideas#showScreen"
+            data-ideas-screen-param="about">
+      <%= image_tag "kumashiru.png", class: "nav-icon-img", alt: "きかくさんとは" %>
+      <span>きかくさんとは</span>
+    </button>
+  </div>
+  <div class="app-footer">&copy; 2026 きかくさん</div>
+</div>
