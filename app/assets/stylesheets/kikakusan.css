@@ -356,17 +356,18 @@ body {
 }
 
 .neta-row.selected {
-  background: #111 !important;
+  background: #EDE8E0 !important;
   border-radius: 10px;
 }
 
 .neta-row.selected .neta-num {
-  background: rgba(255, 255, 255, 0.15);
+  background: #111;
   color: white;
 }
 
 .neta-row.selected .neta-text {
-  color: white;
+  color: #111;
+  font-weight: 600;
 }
 
 .neta-num {
@@ -461,14 +462,15 @@ body {
 }
 
 .neta-row.selected .copy-btn {
-  border-color: rgba(255, 255, 255, 0.3);
-  color: rgba(255, 255, 255, 0.6);
-  background: transparent;
+  border-color: #C8C0B8;
+  color: #888;
+  background: white;
 }
 
 /* ===== コピートースト ===== */
 
-.copy-toast {
+.copy-toast,
+.profile-toast {
   position: fixed;
   bottom: 100px;
   left: 50%;
@@ -486,7 +488,15 @@ body {
   z-index: 200;
 }
 
-.copy-toast.show {
+.share-hint {
+  text-align: center;
+  font-size: 13px;
+  color: #AAAAAA;
+  padding: 4px 0 8px;
+}
+
+.copy-toast.show,
+.profile-toast.show {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }

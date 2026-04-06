@@ -7,17 +7,21 @@ export default class extends Controller {
     "todayMemo",
     "btnDecide",
     "copyToast",
+    "profileToast",
     "genreError",
     "resultBadge",
     "editMemo",
     "profileTooltip",
     "memoCount",
     "editMemoCount",
+    "loadingText",
+    "shareHint",
   ]
 
   connect() {
     this.selectedGenre = null
     this.selectedIdeas = []
+    this.loadingInterval = null
     this.loadProfile()
   }
 
@@ -29,6 +33,7 @@ export default class extends Controller {
     if (target) target.classList.add("active")
     if (this.hasProfileTooltipTarget) this.profileTooltipTarget.classList.remove("show")
     if (screen === "home") this.showProfileTooltipIfNoProfile()
+    if (screen !== "loading") this.stopLoadingMessages()
   }
 
   // ---- 文字数カウンター ----
@@ -86,7 +91,16 @@ export default class extends Controller {
       memo: this.editMemoTarget.value,
     }
     localStorage.setItem("kikakusan_profile", JSON.stringify(profile))
-    this.showScreen({ params: { screen: "home" } })
+
+    if (this.hasProfileToastTarget) {
+      this.profileToastTarget.classList.add("show")
+      setTimeout(() => {
+        this.profileToastTarget.classList.remove("show")
+        this.showScreen({ params: { screen: "home" } })
+      }, 1200)
+    } else {
+      this.showScreen({ params: { screen: "home" } })
+    }
   }
 
   getSelectedChip(group) {
@@ -100,12 +114,11 @@ export default class extends Controller {
     })
   }
 
-loadProfile() {
+  loadProfile() {
     const saved = localStorage.getItem("kikakusan_profile")
     const profile = saved ? JSON.parse(saved) : null
 
     if (profile) {
-      // 編集フォームに反映
       if (this.hasEditMemoTarget) this.editMemoTarget.value = profile.memo || ""
       if (profile.gender) this.selectChipByValue("edit-gender", profile.gender)
       if (profile.age) this.selectChipByValue("edit-age", profile.age)
@@ -124,6 +137,29 @@ loadProfile() {
     this.profileTooltipTarget.classList.add("show")
   }
 
+  // ---- ローディングメッセージ ----
+
+  startLoadingMessages() {
+    const messages = [
+      "企画を考えているよ...",
+      "あなたに合わせて選んでるよ...",
+      "もうすぐできるよ！",
+    ]
+    let i = 0
+    this.loadingInterval = setInterval(() => {
+      i = (i + 1) % messages.length
+      if (this.hasLoadingTextTarget) this.loadingTextTarget.textContent = messages[i]
+    }, 2000)
+  }
+
+  stopLoadingMessages() {
+    if (this.loadingInterval) {
+      clearInterval(this.loadingInterval)
+      this.loadingInterval = null
+    }
+    if (this.hasLoadingTextTarget) this.loadingTextTarget.textContent = "企画を考えているよ..."
+  }
+
   // ---- 企画生成 ----
 
   generateIdeas() {
@@ -133,6 +169,7 @@ loadProfile() {
     }
     this.genreErrorTarget.classList.remove("show")
     this.showScreen({ params: { screen: "loading" } })
+    this.startLoadingMessages()
 
     const siteKeyMeta = document.querySelector('meta[name="recaptcha-site-key"]')
     const siteKey = siteKeyMeta?.getAttribute("content")
@@ -140,12 +177,10 @@ loadProfile() {
     const doFetch = (recaptchaToken = null) => {
       const memo = this.todayMemoTarget.value
       const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-      const likedIdeas = JSON.parse(localStorage.getItem("kikakusan_liked_ideas") || "[]")
-
       fetch("/ideas", {
         method: "POST",
         headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-        body: JSON.stringify({ category: this.selectedGenre, memo, liked_ideas: likedIdeas, recaptcha_token: recaptchaToken }),
+        body: JSON.stringify({ category: this.selectedGenre, memo, recaptcha_token: recaptchaToken }),
       })
         .then(res => {
           if (res.status === 429) {
@@ -196,11 +231,11 @@ loadProfile() {
     }
   }
 
-
   renderIdeas(ideas) {
     this.resultBadgeTarget.textContent = this.selectedGenre
     this.selectedIdeas = []
     this.btnDecideTarget.disabled = true
+    if (this.hasShareHintTarget) this.shareHintTarget.style.display = ""
 
     this.netaListTarget.innerHTML = ideas.map((idea, i) => `
       <div class="neta-row"
@@ -239,6 +274,9 @@ loadProfile() {
     }
 
     this.btnDecideTarget.disabled = this.selectedIdeas.length === 0
+    if (this.hasShareHintTarget) {
+      this.shareHintTarget.style.display = this.selectedIdeas.length === 0 ? "" : "none"
+    }
   }
 
   copyNeta(event) {
