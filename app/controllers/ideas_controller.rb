@@ -40,9 +40,9 @@ class IdeasController < ApplicationController
 
     uri = URI('https://www.google.com/recaptcha/api/siteverify')
     response = Net::HTTP.post_form(uri, {
-      secret: ENV['RECAPTCHA_SECRET_KEY'],
-      response: token.to_s
-    })
+                                     secret: ENV.fetch('RECAPTCHA_SECRET_KEY', nil),
+                                     response: token.to_s
+                                   })
     body = JSON.parse(response.body)
     body['success'] && body['score'].to_f >= 0.5
   rescue StandardError

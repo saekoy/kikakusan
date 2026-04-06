@@ -1,13 +1,13 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', require: false
-gem 'rack-attack'
 gem 'image_processing', '~> 1.2'
 gem 'importmap-rails'
 gem 'jbuilder'
 gem 'kamal', require: false
 gem 'propshaft'
 gem 'puma', '>= 5.0'
+gem 'rack-attack'
 gem 'rails', '~> 8.1.2'
 gem 'solid_cable'
 gem 'solid_cache'
