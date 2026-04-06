@@ -300,13 +300,6 @@ body {
 
 /* ===== 結果画面 ===== */
 
-.heart-hint {
-  font-size: 13px;
-  color: #AAAAAA;
-  text-align: center;
-  padding: 0 24px 8px;
-  flex-shrink: 0;
-}
 
 .result-header {
   padding: 25px 24px 12px;
@@ -402,39 +395,9 @@ body {
   flex-shrink: 0;
   display: flex;
   gap: 8px;
+  align-items: flex-start;
 }
 
-/* ===== ハートボタン ===== */
-
-.heart-btn {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  border: 1.5px solid #F0C0CC;
-  background: #FFF0F3;
-  font-size: 16px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  color: #E07090;
-  transition: all 0.15s;
-  line-height: 1;
-  font-family: inherit;
-}
-
-.heart-btn.liked {
-  background: #111;
-  border-color: #111;
-  color: white;
-}
-
-.neta-row.selected .heart-btn {
-  border-color: rgba(255, 255, 255, 0.3);
-  background: transparent;
-  color: rgba(255, 255, 255, 0.6);
-}
 
 /* ===== コピーボタン ===== */
 
@@ -488,11 +451,39 @@ body {
   z-index: 200;
 }
 
+.share-hint-wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.share-hint-wrap .btn-decide {
+  flex: none;
+  width: 100%;
+}
+
 .share-hint {
-  text-align: center;
-  font-size: 13px;
-  color: #AAAAAA;
-  padding: 4px 0 8px;
+  position: relative;
+  background: #F0EDE8;
+  color: #888;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 8px;
+  white-space: nowrap;
+  margin-top: 6px;
+}
+
+.share-hint::before {
+  content: "";
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 5px 6px;
+  border-style: solid;
+  border-color: transparent transparent #F0EDE8;
 }
 
 .copy-toast.show,

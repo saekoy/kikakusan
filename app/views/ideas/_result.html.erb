@@ -9,15 +9,16 @@
     <%# 企画リストはJSで動的に生成される %>
   </div>
 
-  <p class="share-hint" data-ideas-target="shareHint">タップして企画を選ぼう</p>
-
   <div class="result-footer">
-    <button class="btn-decide"
-            data-ideas-target="btnDecide"
-            data-action="click->ideas#shareToX"
-            disabled>
-      𝕏 でシェアする
-    </button>
+    <div class="share-hint-wrap">
+      <button class="btn-decide"
+              data-ideas-target="btnDecide"
+              data-action="click->ideas#shareToX"
+              disabled>
+        𝕏 でシェアする
+      </button>
+      <p class="share-hint" data-ideas-target="shareHint">タップして企画を選ぼう</p>
+    </div>
     <button class="btn-secondary"
             data-action="click->ideas#generateIdeas">
       もう一回考える

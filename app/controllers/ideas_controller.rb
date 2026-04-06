@@ -13,8 +13,7 @@ class IdeasController < ApplicationController
     titles = GeminiService.new(
       category: params[:category],
       memo: memo,
-      profile: params[:profile] || {},
-      liked_ideas: params[:liked_ideas] || []
+      profile: params[:profile] || {}
     ).call
 
     render json: { ideas: titles }

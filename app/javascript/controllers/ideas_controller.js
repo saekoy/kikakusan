@@ -294,29 +294,6 @@ export default class extends Controller {
     })
   }
 
-  toggleHeart(event) {
-    event.stopPropagation()
-    const btn = event.currentTarget
-    btn.classList.toggle("liked")
-    const title = btn.dataset.idea
-    const liked = JSON.parse(localStorage.getItem("kikakusan_liked_ideas") || "[]")
-
-    if (btn.classList.contains("liked")) {
-      const updated = [title, ...liked.filter(t => t !== title)].slice(0, 20)
-      localStorage.setItem("kikakusan_liked_ideas", JSON.stringify(updated))
-
-      const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute("content")
-      fetch("/ideas/like", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "X-CSRF-Token": csrfToken },
-        body: JSON.stringify({ title, category: btn.dataset.category }),
-      }).catch(() => {})
-    } else {
-      const updated = liked.filter(t => t !== title)
-      localStorage.setItem("kikakusan_liked_ideas", JSON.stringify(updated))
-    }
-  }
-
   // ---- シェア ----
 
   shareToX() {

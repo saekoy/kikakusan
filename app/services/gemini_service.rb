@@ -3,11 +3,10 @@ require 'net/http'
 class GeminiService
   API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-lite:generateContent'.freeze
 
-  def initialize(category:, memo:, profile: {}, liked_ideas: [])
-    @category    = category
-    @memo        = memo
-    @profile     = profile
-    @liked_ideas = Array(liked_ideas)
+  def initialize(category:, memo:, profile: {})
+    @category = category
+    @memo     = memo
+    @profile  = profile
   end
 
   def call
@@ -19,16 +18,25 @@ class GeminiService
 
   def build_prompt
     profile_text = build_profile_text
-    memo_text    = @memo.present? ? "今日のこと：#{@memo}" : ''
-    liked_text   = @liked_ideas.present? ? "過去にいいねした企画：#{@liked_ideas.join('、')}" : ''
+    memo_text = @memo.present? ? "今日のきぶん：#{@memo}" : ''
 
     <<~PROMPT
-      あなたはVライバーの企画ディレクターです。
-      平日は仕事や学業で忙しく毎日配信するライバー向けに、配信企画を10個考えてください。
+      あなたはREALITYというアプリのライブ配信の企画ディレクターです。
+      仕事や学業と両立しながら毎日配信するライバー向けに、今すぐ実行できる配信企画を10個考えてください。
 
-      配信者情報：#{profile_text}
-      ジャンル：#{@category}#{" / #{memo_text}" unless memo_text.empty?}
-      #{liked_text unless liked_text.empty?}
+      【配信者情報】
+      #{profile_text}#{" / #{memo_text}" unless memo_text.empty?}
+      ジャンル：#{@category}
+
+      【必須条件】
+      - コメントゼロ・視聴者1人でも成立する
+      - 準備10分以内で始められる
+      - トーク系・体験系・視聴者参加系・チャレンジ系などバランスよく含める
+
+      【タイトルの形式】
+      - 配信内容が一目でわかる具体的なタイトルにする
+      - 「〇〇してみた」「〇〇チャレンジ」「〇〇あるある」「〇〇選手権」のような形式が望ましい
+      - 「雑談」「ゲーム」のような曖昧なタイトルは不可
 
       出力：企画タイトルのみのJSON配列。説明不要。各20文字以内。
       例：["タイトル1","タイトル2"]
