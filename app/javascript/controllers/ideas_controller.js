@@ -212,10 +212,6 @@ loadProfile() {
           <button class="copy-btn"
                   data-action="click->ideas#copyNeta"
                   data-idea="${this.escapeHtml(idea)}">❐</button>
-          <button class="heart-btn"
-                  data-action="click->ideas#toggleHeart"
-                  data-idea="${this.escapeHtml(idea)}"
-                  data-category="${this.escapeHtml(this.selectedGenre)}">♡</button>
         </div>
       </div>
     `).join("")

@@ -23,7 +23,7 @@ body {
 .screen {
   display: none;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 .screen.active {
@@ -332,7 +332,6 @@ body {
 }
 
 .neta-list {
-  flex: 1;
   overflow-y: auto;
   padding: 0 14px;
 }
