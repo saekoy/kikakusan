@@ -1,3 +1,7 @@
+:root {
+  --accent: #C8614A;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
@@ -5,9 +9,9 @@
 }
 
 body {
-  font-family: 'Yomogi', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   font-size: 19px;
-  background: #EDE8E0;
+  background: #fff9f0;
   min-height: 100vh;
 }
 
@@ -52,9 +56,9 @@ body {
 }
 
 .chip.selected {
-  background: #111;
+  background: var(--accent);
   color: white;
-  border-color: #111;
+  border-color: var(--accent);
 }
 
 .chip:active {
@@ -82,7 +86,7 @@ body {
 .btn-primary {
   width: 100%;
   padding: 13px;
-  background: #111;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 18px;
@@ -183,8 +187,8 @@ body {
 }
 
 .genre-card.selected {
-  background: #111;
-  border-color: #111;
+  background: var(--accent);
+  border-color: var(--accent);
 }
 
 .genre-card .g-emoji {
@@ -226,7 +230,7 @@ body {
 
 .home-textarea:focus {
   outline: none;
-  border-color: #111;
+  border-color: var(--accent);
 }
 
 /* ===== 文字数カウンター ===== */
@@ -263,7 +267,7 @@ body {
 .dot {
   width: 10px;
   height: 10px;
-  background: #111;
+  background: var(--accent);
   border-radius: 50%;
   animation: bounce 1.2s infinite;
 }
@@ -333,7 +337,7 @@ body {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 5px 10px;
+  padding: 5px;
   border-radius: 10px;
   border-bottom: 1px solid #F0F0F0;
   cursor: pointer;
@@ -354,7 +358,7 @@ body {
 }
 
 .neta-row.selected .neta-num {
-  background: #111;
+  background: var(--accent);
   color: white;
 }
 
@@ -419,8 +423,8 @@ body {
 }
 
 .copy-btn.copied {
-  border-color: #111;
-  background: #111;
+  border-color: var(--accent);
+  background: var(--accent);
   color: white;
 }
 
@@ -438,7 +442,7 @@ body {
   bottom: 100px;
   left: 50%;
   transform: translateX(-50%) translateY(4px);
-  background: #111;
+  background: var(--accent);
   color: white;
   font-size: 18px;
   font-weight: 600;
@@ -497,7 +501,7 @@ body {
 .btn-decide {
   flex: 1;
   padding: 12px 8px;
-  background: #111;
+  background: var(--accent);
   color: white;
   border: none;
   border-radius: 18px;
@@ -558,7 +562,7 @@ body {
 }
 
 .nav-item.active {
-  color: #111;
+  color: var(--accent);
   background: #F0EDE8;
 }
 
